@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import os, time, signal
+import sys, os, time, signal
+sys.path.append('./components')
 
 from flask import Flask, request
 from threading import Thread

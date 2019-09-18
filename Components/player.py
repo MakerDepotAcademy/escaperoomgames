@@ -4,7 +4,7 @@ from itertools import cycle
 
 from components.questions import CHOICES
 from components.settings import BoardStack, Time
-from gpio32.lib import Manager as M
+from components.board import Manager as M
 
 Manager = M()
 
