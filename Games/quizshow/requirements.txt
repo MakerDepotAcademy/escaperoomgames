@@ -1,0 +1,7 @@
+sqlalchemy
+flask
+pyserial
+requests
+pathlib
+toml
+websocket-client
