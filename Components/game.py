@@ -17,16 +17,15 @@ class Game(ABC):
     self._api = Flask(__name__)
     self._pause = Pause(self.pause_change)
     self._config = toml.load(configpath)
-    # self._manager = Manager(self.get_config('BOARD', 'STACK').split(','))
-    self._manager = []
-    self._dump = {}
+    self.manager = Manager(self.get_config('BOARD', 'STACK').split(','))
+    self.meta = {}
     self._alive = True
     self._lifespan = self.get_config('TIME', 'GAME_TIME', type=int, default=300)
     self._playing = False
     self._roundtime = self.get_config('TIME', 'ROUND_TIME', type=int, default=10)
 
   @abstractmethod
-  def gameLogic(self):
+  def gameLogic(self, form):
     pass
 
   @abstractmethod
@@ -68,7 +67,7 @@ class Game(ABC):
 
   def killed(self):
     if self._alive == False:
-      for b in self._manager:
+      for b in self.manager:
         b.resetall()
         b.closeall()
       self.once_killed()
@@ -78,7 +77,7 @@ class Game(ABC):
     self.killed()
     self._pause.block_if_paused()
 
-  def sleep(self, t):
+  def sleep(self, t=1):
     i = t
     while i > 0:
       self.block()
@@ -93,7 +92,7 @@ class Game(ABC):
     # This will nuke threads too, thanks brad
     i = self._lifespan
     while i > 0 and self._playing:
-      self.sleep(1)
+      self.sleep()
       i -= 1
       self.game_tick(i)
       if i == 0:
@@ -103,9 +102,8 @@ class Game(ABC):
   def _roundTimer(self):
     i = self._roundtime
     while i > 0 and self._playing:
-      self._pause.block_if_paused()
       self.round_tick(i)
-      sleep(1)
+      self.sleep()
       i -= 1
     self.round_tick(-1)
     self._playing = False
@@ -123,7 +121,7 @@ class Game(ABC):
     def flask_start_game():
       self._playing = True
       self._alive = True
-      self._gameloopthread = Thread(target=self._gameLoop)
+      self._gameloopthread = Thread(target=self._gameLoop, args=[request.form.to_dict()])
       self._gametimerthread = Thread(target=self._gameTimer)
       self._gameloopthread.start()
       self._gametimerthread.start()
@@ -144,7 +142,7 @@ class Game(ABC):
 
     @self._api.route('/dump')
     def flask_dump():
-      return self._dump
+      return self.meta
 
     @self._api.route('/kill')
     def flask_kill():

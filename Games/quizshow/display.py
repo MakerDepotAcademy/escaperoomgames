@@ -1,18 +1,15 @@
 from json import dumps
 from components.questions import CHOICES
-from components.settings import Music
 import websocket
 
 M = Music()
 
 class DONOTUSEME(Exception):
-
-    def __init__(self):
-        Exception.__init__("Do Not Use Me")
+    pass
 
 class Display():
 
-    def __init__(self, address):
+    def __init__(self, address, **kwargs):
         self._address = address
         self._payload = dict()
         self.isPaused = False
@@ -20,7 +17,12 @@ class Display():
         self._ws = websocket.WebSocket()
         self._ws.connect('ws://' + self._address)
 
+        self._music_correct = kwargs.get('correct_music', '')
+        self._music_wrong = kwargs.get('wrong_music', '')
+
     def _queue(self, endpoint, payload=None):
+        if endpoint in self._payload.keys():
+            self.flush()
         self._payload[endpoint] = payload
 
     def flush(self):
@@ -41,7 +43,7 @@ class Display():
     def setCorrect(self, label):
         self._queue(self._getLabel('score', 'correct'))
         self._queue(self._getLabel(label, 'correct'))
-        self.playAudio(M.Correct)
+        self.playAudio(self._music_correct)
 
     def setSelected(self, label):
         self._queue(self._getLabel(label, 'selected'))
@@ -60,7 +62,7 @@ class Display():
     def doWrong(self):
         self._queue(self._getLabel('score', 'wrong'))
         self._queue('wrong')
-        self.playAudio(M.Wrong)
+        self.playAudio(self._music_wrong)
 
     def playVideo(self, vidpath):
         self._queue('videoplay', vidpath)

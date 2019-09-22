@@ -3,7 +3,6 @@ from random import shuffle
 from itertools import cycle
 
 from components.questions import CHOICES
-from components.settings import BoardStack, Time
 from components.board import Manager as M
 
 Manager = M()
@@ -71,9 +70,7 @@ class Player():
         return CHOICES[i]
 
 
-def assignPlayers(player_count):
-  Settings = BoardStack()
-  boards = [Manager[i] for i in Settings.Board_Stack]
+def assignPlayers(player_count, boards):
   Players = []
   b = 0
   S = cycle(range(0, 32, 8))
