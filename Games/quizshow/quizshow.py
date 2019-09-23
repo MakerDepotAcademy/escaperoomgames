@@ -12,6 +12,7 @@ class QuizShowGame(Game):
 
   def __init__(self):
     Game.__init__(self, os.getcwd() + '/config.cfg')
+    disp = Display(Q.get_config('LINK','DISP'), correct_music=Q.get_config('MUSIC', 'START'), wrong_music=Q.get_config('MUSIC', 'WRONG'))
 
   def game_tick(self, time):
     disp.setGameTimer(time)
@@ -79,6 +80,4 @@ class QuizShowGame(Game):
       # self.stopRound()
       self.sleep(self.get_config('TIME', 'BETWEEN_ROUNDS'))
 
-Q = QuizShowGame()
-disp = Display(Q.get_config('LINK','DISP'), correct_music=Q.get_config('MUSIC', 'START'), wrong_music=Q.get_config('MUSIC', 'WRONG'))
-Q.serve()
+QuizShowGame().serve()
