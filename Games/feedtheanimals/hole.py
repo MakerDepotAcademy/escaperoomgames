@@ -55,6 +55,8 @@ class HoleManager():
       S.start()
       p = self._b.awaitChange([i._in for i in ins], T, timeout_tick)
       S.stop()
+      if p not in ins:
+        return False
       T -= int(S)
       ins.remove([i for i in ins if i._in == p][0])
 
