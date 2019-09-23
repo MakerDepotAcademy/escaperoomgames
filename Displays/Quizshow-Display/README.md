@@ -10,7 +10,6 @@ This is the display component of the quiz show
 ## Installation
 
 ``` bash
-cd ETest
 npm install
 ```
 

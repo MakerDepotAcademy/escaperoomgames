@@ -61,10 +61,8 @@ Api:
 
 ```bash
 curl host.domain/start -X POST -d 'playerCount=#' # Starts a game
-curl host.domain/score -X GET # Returns score
-curl host.domain/pause -X GET # Pauses/unpauses the game
 ```
 
 ### Display
 
-Docs can be found [here](Display/README.md)
+Docs can be found [here](../Display/README.md)
