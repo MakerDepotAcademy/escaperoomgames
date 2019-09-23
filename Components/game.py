@@ -17,7 +17,7 @@ class Game(ABC):
     self._api = Flask(__name__)
     self._pause = Pause(self.pause_change)
     self._config = toml.load(configpath)
-    self.manager = [] # Manager(self.get_config('BOARD', 'STACK').split(','))
+    self.manager = Manager(self.get_config('BOARD', 'STACK').split(','))
     self.meta = {}
     self._alive = True
     self._lifespan = self.get_config('TIME', 'GAME_TIME', type=int, default=300)
