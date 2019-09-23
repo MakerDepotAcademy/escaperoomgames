@@ -2,10 +2,8 @@ from time import sleep
 from random import shuffle
 from itertools import cycle
 
-from components.questions import CHOICES
+from questions import CHOICES
 from components.board import Manager as M
-
-Manager = M()
 
 class Button():
 
@@ -53,7 +51,7 @@ class Player():
   def __getitem__(self, x):
     return self.buttons[x]
 
-  def catchAnswer(self, timeout_tick=None):
+  def catchAnswer(self, timeout=-1, timeout_tick=None):
     def b(i=None):
       if i != None:
         return self.buttons[CHOICES[i]]._in
@@ -61,7 +59,7 @@ class Player():
         return [b(i) for i in range(len(CHOICES))]
         
     try:
-      ret = self._board.awaitChange(b(), Time().Round_Time, timeout_tick)
+      ret = self._board.awaitChange(b(), timeout, timeout_tick)
     except TimeoutError as e:
       return ''
 

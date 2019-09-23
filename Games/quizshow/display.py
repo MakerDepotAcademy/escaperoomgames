@@ -1,8 +1,7 @@
 from json import dumps
-from components.questions import CHOICES
+from questions import CHOICES
 import websocket
 
-M = Music()
 
 class DONOTUSEME(Exception):
     pass
@@ -82,6 +81,7 @@ class Display():
 
     def timeout(self):
         self._queue('timeout')
+        self.playAudio(self._music_wrong)
     
 
 def displayQuestion(display, question):

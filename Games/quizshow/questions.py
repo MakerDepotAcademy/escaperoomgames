@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine
-from components.settings import Database
 
 CHOICES = ['red', 'green', 'blue', 'yellow']
 
@@ -30,7 +29,7 @@ class Question():
     ''' % (self.question, self.correct, self.answers['red'], self.answers['green'], self.answers['blue'], self.answers['yellow']))
 
 def getQuestions():
-  dbConnect = create_engine(Database().URL)
+  dbConnect = create_engine('sqlite:///quizShow.db')
   dbConnection = dbConnect.connect()
 
   # If the number of rows marked used is greater than or equal to the number of rows avaliable, then reset all the rows
