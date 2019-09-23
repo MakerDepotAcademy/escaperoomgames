@@ -48,3 +48,6 @@ const listenflash = (label, timeout=2000) => {
 listener('round_time', '#round_time')
 listener('game_time', '#game_time')
 listener('score', '#score')
+listenflash('roundsup')
+listenflash('gameover')
+listenflash('correct')

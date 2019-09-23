@@ -29,3 +29,12 @@ class Display():
 
   def setScore(self, s):
     self._queue('score', s)
+
+  def timeout(self):
+    self._queue('roundsup')
+
+  def good(self):
+    self._queue('correct')
+
+  def gameover(self):
+    self._queue('gameover')
