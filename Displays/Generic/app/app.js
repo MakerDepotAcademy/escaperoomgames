@@ -45,42 +45,6 @@ const listenflash = (label, timeout=2000) => {
   });
 }
 
-listener('question', '#question');
-listenerAnswer('red');
-listenerAnswer('green');
-listenerAnswer('blue');
-listenerAnswer('yellow');
-listener('roundtick', '#round_time');
-listener('gametick', '#game_time');
-listenflash('roundsup')
-listenflash('gameover', 10000)
-listenflash('wrong')
-listenflash('player', 3000)
-listenflash('timeout', 1000)
-
-listener('score.correct', '#score.correct', (opts) => {
-  let e = document.querySelector(opts.query)
-  e.textContent = parseInt(e.textContent) + 1
-});
-listener('score.wrong', '#score.wrong', (opts) => {
-  let e = document.querySelector(opts.query)
-  e.textContent = parseInt(e.textContent) - 1
-})
-
-listener('player', '#player', opts => {
-  var e = document.querySelector('#playername')
-  e.innerText = opts.arg
-})
-
-var vid = document.querySelector('video')
-vid.addEventListener('ended', () => {
-  vid.classList.add('hidden')
-  ipcRenderer.send('videodone')
-})
-
-ipcRenderer.on("videoplay", (evt, arg) => {
-  vid.src = arg
-  vid.classList.remove('hidden')
-  vid.load()
-  vid.play()
-})
+listener('round_time', '#round_time')
+listener('game_time', '#game_time')
+listener('score', '#score')

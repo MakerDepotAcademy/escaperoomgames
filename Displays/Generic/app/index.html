@@ -4,18 +4,9 @@
 
 <body>
   <video autoplay></video>
-  <div id="stats">
-      <h2>Correct: <span id="score.correct">0</span></h2>
-      <h2>Wrong: <span id="score.wrong">0</span></h2>
-      <h2>Round time: <span id="round_time" class="timer">0</span></h2>
-      <h2>Game time: <span id="game_time" class="timer">0</span></h2>
-  </div>
   <header>
-    <h1>Fact Attack</h1>
+    <h1 id="title">Generic Display</h1>
   </header>
-
-
-  <h1 id="question"></h1>
 
   <h1 id="roundsup" class="hidden alert bad">Round's up</h1>
   <h1 id="gameover" class="hidden alert bad">Game over</h1>
@@ -25,10 +16,15 @@
   <h1 id="timeout" class="hidden alert bad">Times up</h1>
   
   <div class="container">
-    <div id="red" class="box"><span id="answer"></span></div>
-    <div id="green" class="box"><span id="answer"></span></div>
-    <div id="blue" class="box"><span id="answer"></span></div>
-    <div id="yellow" class="box"><span id="answer"></span></div>
+    <div class="box">
+      <h2>Round time: <span id="round_time" class="timer">0</span></h2>
+    </div>
+    <div class="box">
+      <h2>Game time: <span id="game_time" class="timer">0</span></h2>
+    </div>
+    <div class="box">
+      <h2>Score: <span id="score"></span></h2>
+    </div>
   </div>
 
   <script src="app.js"></script>
