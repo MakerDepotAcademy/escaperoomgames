@@ -12,6 +12,6 @@ mkdir -p $FOLDER
 cp Targets/assets/gamedef.py $GAME
 cp -r Targets/assets/components $FOLDER
 sed -i "s/{{name}}/$1/" $GAME
-git add $GAME
-git commit $GAME -m "Initalized $1 game"
+git add $FOLDER
+git commit $FOLDER -m "Initalized $1 game"
 cd $FOLDER
