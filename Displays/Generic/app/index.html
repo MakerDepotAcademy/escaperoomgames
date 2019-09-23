@@ -1,0 +1,35 @@
+<head>
+  <link rel="stylesheet" href="style.css" >
+</head>
+
+<body>
+  <video autoplay></video>
+  <div id="stats">
+      <h2>Correct: <span id="score.correct">0</span></h2>
+      <h2>Wrong: <span id="score.wrong">0</span></h2>
+      <h2>Round time: <span id="round_time" class="timer">0</span></h2>
+      <h2>Game time: <span id="game_time" class="timer">0</span></h2>
+  </div>
+  <header>
+    <h1>Fact Attack</h1>
+  </header>
+
+
+  <h1 id="question"></h1>
+
+  <h1 id="roundsup" class="hidden alert bad">Round's up</h1>
+  <h1 id="gameover" class="hidden alert bad">Game over</h1>
+  <h1 id="wrong" class="hidden alert bad">Nope</h1>
+  <h1 id="correct" class="hidden alert good">CORRECT!!</h1>
+  <h1 id="player" class="hidden alert good">Player <span id="playername"></span>, you're up!</h1>
+  <h1 id="timeout" class="hidden alert bad">Times up</h1>
+  
+  <div class="container">
+    <div id="red" class="box"><span id="answer"></span></div>
+    <div id="green" class="box"><span id="answer"></span></div>
+    <div id="blue" class="box"><span id="answer"></span></div>
+    <div id="yellow" class="box"><span id="answer"></span></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
