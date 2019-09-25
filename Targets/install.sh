@@ -2,13 +2,13 @@
 
 ME=$0
 TYPE=$1
-GAME=$2
+THING=$2
 ROOT=$(pwd)/..
 DGAMES=$ROOT/Games
 DDISPLAYS=$ROOT/Displays
 
 function scan {
-  find $1 -maxdepth 1 | grep -Po "(?<=\w\/)((\w|-|_)*)$"
+  echo $(find $1 -maxdepth 1 | grep -Po "(?<=\w\/)((\w|-|_)*)$")
 }
 
 function help {
@@ -24,7 +24,7 @@ function help {
   echo "Avaliable displays:"
   scan $DDISPLAYS
   echo ""
-  echo "Also installs background services to keep everything running" 
+  echo "Also installs background services to keep every$THING running" 
 }
 
 function error {
@@ -33,7 +33,18 @@ function error {
   exit 1
 }
 
-if [[ -z $TYPE || -z $GAME ]]
+function install_service {
+  NAME=$1
+  cd $ROOT/Targets/assets/selfupdater
+  cp ./$NAME.service /etc/systemd/system/
+  cd /etc/systemd/system/
+  sed -i 's/{{}}/$2/' $NAME.service
+  service $NAME enable
+  service $NAME start
+  cd $ROOT
+}
+
+if [[ -z $TYPE || -z $THING ]]
 then
   error "requires two arguments"
 fi
@@ -45,7 +56,7 @@ fi
 
 if [ $TYPE == "game" ]
 then
-  if [ ! -d "$DGAMES/$GAME" ]
+  if [ ! -d "$DGAMES/$THING" ]
   then
     error "Game does not exist"
   fi
@@ -53,7 +64,7 @@ fi
 
 if [ $TYPE == "display" ]
 then
-  if [ ! -d "$DDISPLAY/$GAME" ]
+  if [ ! -d "$DDISPLAY/$THING" ]
   then
     error "Display does not exist"
   fi
@@ -64,3 +75,26 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+echo "Installing updater"
+cd $ROOT/Targets/assets/selfupdater
+pip3 install -r requirements.txt
+install_service "self_updater" 
+
+if [[ "$TYPE" == "game" ]]
+then
+  echo "Installing $$THING game"
+  cd $ROOT/Games/$THING
+  if [ -a requirements.txt ]
+  then
+    pip3 install -r requirements.txt
+  fi
+  install_service "game_runner" $ROOT
+fi
+
+if [[ "$TYPE" == "display" ]]
+then
+  echo "Installing the $THING display"
+  cd $ROOT/Displays/$THING
+  npm install
+  install_service "display_runner.service" $ROOT/Displays/$THING
+fi
