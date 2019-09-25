@@ -116,6 +116,9 @@ class Game(ABC):
   def stopRound(self):
     self._playing = False
 
+  def __call__(self, port=5000):
+    self.serve(port)
+
   def serve(self, port=5000):
     @self._api.route('/start', methods=['POST'])
     def flask_start_game():

@@ -33,10 +33,9 @@ class {{name}}(Game):
     # This happens everytime the round timer changes
     pass
 
-  @abstractmethod
   def once_killed(self):
     # This happens right before the game is officially killed. Use this to reset
     # any external assets.
     pass
 
-{{name}}().serve()
+{{name}}()()
