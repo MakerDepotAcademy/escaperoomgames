@@ -51,7 +51,7 @@ fi
 
 if [[ "$TYPE" != "game" && "$TYPE" != "display" ]]
 then
-  error "first argument must be game or device"
+  error "first argument must be game or display"
 fi
 
 if [ $TYPE == "game" ]
@@ -82,7 +82,7 @@ install_service "self_updater"
 
 if [[ "$TYPE" == "game" ]]
 then
-  echo "Installing $$THING game"
+  echo "Installing $THING game"
   cd $ROOT/Games/$THING
   if [ -a requirements.txt ]
   then
