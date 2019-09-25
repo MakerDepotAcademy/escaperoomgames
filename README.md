@@ -22,8 +22,9 @@ The archetecture of the repo is meant to allow for encapsulation of various comp
   - [Games](Games) : Where all the game logic and I/O interactions are defined
     - [Quizshow](Games/quizshow) : The quizshow game
     - [Feed The Animals](Games/feedtheanimals) : The "feed the animals" game
-  - [Targets](Targets) : Where all the installation scripts will go (once I learn make)
-    - ...
+  - [Targets](Targets) : Where all the installation scripts will go
+    - [install.sh](Targets/install.sh) : Installs modules
+    - [newgame.sh](Targets/newgame.sh) : Generates a new game
 
 ## How to develop a new game
 
