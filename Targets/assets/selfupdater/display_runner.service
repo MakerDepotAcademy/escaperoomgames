@@ -1,0 +1,14 @@
+[Unit]
+Description=Keeps the display running
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/usr/local/bin/npm start
+WorkingDirectory={{}}
+
+[Install]
+WantedBy=multi-user.target
