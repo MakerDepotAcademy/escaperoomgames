@@ -50,6 +50,15 @@
     - [block_if_paused()](#blockifpaused)
     - [isPaused()](#ispaused)
     - [pause()](#pause)
+  - [`class Display()`](#class-display)
+    - [\_\_init\_\_(address)](#initaddress)
+    - [flush()](#flush-1)
+    - [setRoundTime(t)](#setroundtimet)
+    - [setGameTime(t)](#setgametimet)
+    - [setScore(s)](#setscores)
+    - [timeout()](#timeout)
+    - [good()](#good)
+    - [gameover()](#gameover)
 
 ## [`class Game(ABC)`](game.py)
 
@@ -314,3 +323,48 @@ Tests if this is paused
 ### pause()
 
 Toggles the pause
+
+## [`class Display()`](generic_display.py)
+
+This is the driver for the [generic display](Displays/Generic)
+
+### \_\_init\_\_(address)
+
+Initalizes and connects to a display
+
+- address <str> : the host for the display
+
+### flush()
+
+Sends the payload to the display
+
+### setRoundTime(t)
+
+Sets the round time display
+
+- t <int> : The number to display
+
+### setGameTime(t)
+
+Sets the game time display
+
+- t <int> : The number to display
+
+### setScore(s)
+
+Sets the score display
+
+- t <int> : The number to display
+
+
+### timeout()
+
+Show the timeout message
+
+### good()
+
+Show the good message
+
+### gameover()
+
+Show the gameover message
