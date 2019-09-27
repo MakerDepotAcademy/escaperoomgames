@@ -98,7 +98,11 @@ fi
 if [[ "$TYPE" == "display" ]]
 then
   echo "Installing the $THING display"
-  cd $ROOT/Displays/$THING
+  DISP=$ROOT/Displays/$THING
+  cd $DISP
   npm install
-  install_service "display_runner" $ROOT/Displays/$THING
+  echo ". autostart" >> ~/.bashrc
+  echo "npm start" > $DISP/autostart
+  ln -s $DISP/autostart autostart
+  echo "Restart machine to load display"
 fi
