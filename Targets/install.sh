@@ -39,9 +39,11 @@ function install_service {
   cp ./$NAME.service /etc/systemd/system/
   cd /etc/systemd/system/
   # sed -i "s/REPLACEME/$2/" $NAME.service
-  ./$ROOT/self_updater/findreplace.py $NAME.service $2
-  service $NAME enable
-  service $NAME start
+  python3 $ROOT/Targets/assets/selfupdater/findreplace.py $NAME.service $2
+  chmod 644 $NAME.service
+  systemctl daemon-reload
+  systemctl enable $NAME
+  systemctl start $NAME
   cd $ROOT
 }
 
@@ -99,5 +101,3 @@ then
   npm install
   install_service "display_runner.service" $ROOT/Displays/$THING
 fi
-
-systemctl daemon-reload
