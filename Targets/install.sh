@@ -38,7 +38,8 @@ function install_service {
   cd $ROOT/Targets/assets/selfupdater
   cp ./$NAME.service /etc/systemd/system/
   cd /etc/systemd/system/
-  sed -i "s/REPLACEME/$2/" $NAME.service
+  # sed -i "s/REPLACEME/$2/" $NAME.service
+  ./$ROOT/self_updater/findreplace.py $NAME.service $2
   service $NAME enable
   service $NAME start
   cd $ROOT
