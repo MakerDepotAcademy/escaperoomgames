@@ -12,7 +12,7 @@ class QuizShowGame(Game):
 
   def __init__(self):
     Game.__init__(self, os.getcwd() + '/config.cfg')
-    disp = Display(Q.get_config('LINK','DISP'), correct_music=Q.get_config('MUSIC', 'START'), wrong_music=Q.get_config('MUSIC', 'WRONG'))
+    disp = Display(self.get_config('LINK','DISP'), correct_music=self.get_config('MUSIC', 'START'), wrong_music=self.get_config('MUSIC', 'WRONG'))
 
   def game_tick(self, time):
     disp.setGameTimer(time)
@@ -29,15 +29,15 @@ class QuizShowGame(Game):
 
   def gameLogic(self, form):
     # Pregame prep
-    ROUND_TIME = self.get_config('TIME', 'ROUND', type=int, default=10)
+    ROUND_TIME = self.get_config('TIME', 'ROUND_TIME', type=int, default=10)
     disp.setRoundTimer(ROUND_TIME)
-    disp.setGameTimer(self.get_config('TIME', 'GAME', type=int, default=300))
+    disp.setGameTimer(self.get_config('TIME', 'GAME_TIME', type=int, default=300))
     
     disp.playAudio(self.get_config('MUSIC', 'START'))
-    self.sleep(self.get_config('TIME', 'START_DELAY', type=int))
+    self.sleep(self.get_config('TIME', 'START_DELAY', type=int, default=1))
 
     plyrs = Player.assignPlayers(self.manager, form['playerCount'])
-    Q = Questions.getQuestions()
+    Q = Questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = Player.cyclePlayers(plyrs)
     while True:
       # Match player to question
@@ -78,6 +78,6 @@ class QuizShowGame(Game):
       disp.flush()
       player.lightAll(False)
       # self.stopRound()
-      self.sleep(self.get_config('TIME', 'BETWEEN_ROUNDS'))
+      self.sleep(self.get_config('TIME', 'BETWEEN_ROUNDS', type=int, default=1))
 
-QuizShowGame().serve()
+QuizShowGame()()

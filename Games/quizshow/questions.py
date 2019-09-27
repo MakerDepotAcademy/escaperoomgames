@@ -28,8 +28,9 @@ class Question():
     Yellow: %s
     ''' % (self.question, self.correct, self.answers['red'], self.answers['green'], self.answers['blue'], self.answers['yellow']))
 
-def getQuestions():
-  dbConnect = create_engine('sqlite:///quizShow.db')
+def getQuestions(url):
+  # 'sqlite:///quizShow.db'
+  dbConnect = create_engine(url)
   dbConnection = dbConnect.connect()
 
   # If the number of rows marked used is greater than or equal to the number of rows avaliable, then reset all the rows
