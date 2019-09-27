@@ -38,7 +38,7 @@ function install_service {
   cd $ROOT/Targets/assets/selfupdater
   cp ./$NAME.service /etc/systemd/system/
   cd /etc/systemd/system/
-  sed -i 's/{{}}/$2/' $NAME.service
+  sed -i "s/REPLACEME/$2/" $NAME.service
   service $NAME enable
   service $NAME start
   cd $ROOT
@@ -78,7 +78,7 @@ fi
 echo "Installing updater"
 cd $ROOT/Targets/assets/selfupdater
 pip3 install -r requirements.txt
-install_service "self_updater" 
+install_service "self_updater" $ROOT
 
 if [[ "$TYPE" == "game" ]]
 then
@@ -98,3 +98,5 @@ then
   npm install
   install_service "display_runner.service" $ROOT/Displays/$THING
 fi
+
+systemctl daemon-reload

@@ -1,5 +1,5 @@
 [Unit]
-Description=Keeps {{}} running
+Description=Keeps REPLACEME running
 After=network.target
 
 [Service]
@@ -7,7 +7,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
-ExecStart=/usr/bin/python3 {{}}
+ExecStart=/usr/bin/python3 REPLACEME
 
 [Install]
 WantedBy=multi-user.target
