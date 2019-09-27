@@ -4,6 +4,7 @@ ME=$0
 TYPE=$1
 THING=$2
 ROOT=$(pwd)/..
+ROOT=$(realpath $ROOT)
 DGAMES=$ROOT/Games
 DDISPLAYS=$ROOT/Displays
 
@@ -67,7 +68,7 @@ fi
 
 if [ $TYPE == "display" ]
 then
-  if [ ! -d "$DDISPLAY/$THING" ]
+  if [ ! -d "$DDISPLAYS/$THING" ]
   then
     error "Display does not exist"
   fi
@@ -99,5 +100,5 @@ then
   echo "Installing the $THING display"
   cd $ROOT/Displays/$THING
   npm install
-  install_service "display_runner.service" $ROOT/Displays/$THING
+  install_service "display_runner" $ROOT/Displays/$THING
 fi
