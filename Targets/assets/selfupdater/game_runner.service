@@ -8,6 +8,7 @@ Restart=always
 RestartSec=1
 User=root
 ExecStart=/usr/bin/python3 REPLACEME
+WorkingDirectory=REPLACEDIR
 
 [Install]
 WantedBy=multi-user.target
