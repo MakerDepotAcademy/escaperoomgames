@@ -92,7 +92,7 @@ then
   then
     pip3 install -r requirements.txt
   fi
-  install_service "game_runner" $ROOT/Games/$THING.py
+  install_service "game_runner" $ROOT/Games/$THING/$THING.py
 fi
 
 if [[ "$TYPE" == "display" ]]
