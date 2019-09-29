@@ -41,10 +41,8 @@ class Board():
 
   def _prompt(self, p):
     self.run()
-    self._eventLock.acquire(True)
     self._ser.write(p.encode())
     r = self._ser.readline().decode()
-    self._eventLock.release()
     return r.strip()
 
   def turnOn(self, pin):
@@ -129,13 +127,12 @@ class Manager():
         except ValueError:
           continue
         else:
-          if re.search(r'[0-9]+', i):
-            t[int(i)] = b
-            print('Got board %s at %s' % (i, str(acm)))
-            break
+          t[i] = b
+          print('Got board %s at %s' % (i, str(acm)))
+          break
 
     for o in order:
-      self._boards.append(t[o])
+      self._boards.append(t[int(o)])
 
   def __getitem__(self, i):
     return self.getBoardByID(i)
