@@ -3,22 +3,22 @@ import sys, os
 sys.path.append('./components')
 from components.game import Game
 
-import player
+from player import assignPlayers, cyclePlayers
 import questions
 from display import Display, displayQuestion
 
-disp = None
+
 class QuizShowGame(Game):
 
   def __init__(self):
     Game.__init__(self, os.getcwd() + '/config.cfg')
-    disp = Display(self.get_config('LINK','DISP'), correct_music=self.get_config('MUSIC', 'START'), wrong_music=self.get_config('MUSIC', 'WRONG'))
+    self.disp = Display(self.get_config('LINK','DISP'), correct_music=self.get_config('MUSIC', 'START'), wrong_music=self.get_config('MUSIC', 'WRONG'))
 
   def game_tick(self, time):
-    disp.setGameTimer(time)
+    self.disp.setGameTimer(time)
 
   def round_tick(self, time):
-    disp.setRoundTimer(time)
+    self.disp.setRoundTimer(time)
 
   def once_killed():
     print('Killed')
@@ -27,18 +27,26 @@ class QuizShowGame(Game):
     print('Pause')
     print(paused)
 
+  def addScore(self, s=None):
+    if s is not None:
+      self.meta['score'] += s
+    return self.meta['score']
+
   def gameLogic(self, form):
     # Pregame prep
     ROUND_TIME = self.get_config('TIME', 'ROUND_TIME', type=int, default=10)
-    disp.setRoundTimer(ROUND_TIME)
-    disp.setGameTimer(self.get_config('TIME', 'GAME_TIME', type=int, default=300))
+    self.disp.setRoundTimer(ROUND_TIME)
+    self.disp.setGameTimer(self.get_config('TIME', 'GAME_TIME', type=int, default=300))
     
-    disp.playAudio(self.get_config('MUSIC', 'START'))
+    # self.disp.playAudio(self.get_config('MUSIC', 'START'))
     self.sleep(self.get_config('TIME', 'START_DELAY', type=int, default=1))
 
-    plyrs = Player.assignPlayers(self.manager, form['playerCount'])
-    Q = Questions.getQuestions(self.get_config('LINK', 'DB_URL'))
-    P = Player.cyclePlayers(plyrs)
+    plyrs = assignPlayers(int(form['playerCount']), self.manager)
+    Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
+    P = cyclePlayers(plyrs)
+
+    self.meta['score'] = 0
+
     while True:
       # Match player to question
       question = next(Q)
@@ -48,34 +56,34 @@ class QuizShowGame(Game):
       self.block()
       # player.flash(Times.Invite_Sleep)
       player.lightAll(True)
-      disp.invitePlayer(player._id)
-      disp.playAudio(START_MUSIC)
+      self.disp.invitePlayer(player._id)
+      # self.disp.playAudio(START_MUSIC)
       # self.startRound()
 
       # Step 2: Display question
       self.block()
       question.show()
-      displayQuestion(disp, question)
+      displayQuestion(self.disp, question)
 
       # Step 3: Judge answer
       self.block()
       ans = player.catchAnswer(ROUND_TIME, self.round_tick)
       
       if ans == '':
-        disp.timeout()
+        self.disp.timeout()
       else:
         if question == ans:
-          disp.setCorrect(ans)
-          Scores.score += Scores.Inc
+          self.disp.setCorrect(ans)
+          self.addScore(1)
         else:
-          disp.doWrong()
-          disp.setSelected(ans)
-          Scores.score -= Scores.Dec
+          self.disp.doWrong()
+          self.disp.setSelected(ans)
+          self.addScore(-1)
 
-      disp.setScore(Scores.score)
+      self.disp.setScore(self.meta['score'])
 
       # Step 4 disinvite player
-      disp.flush()
+      self.disp.flush()
       player.lightAll(False)
       # self.stopRound()
       self.sleep(self.get_config('TIME', 'BETWEEN_ROUNDS', type=int, default=1))

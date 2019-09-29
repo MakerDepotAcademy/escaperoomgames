@@ -68,8 +68,9 @@ class Display():
         self.flush()
 
     def playAudio(self, audpath):
-        self._queue('audioplay', audpath)
-        self.flush()
+        print('Pass playing audio')
+        # self._queue('audioplay', audpath)
+        # self.flush()
 
     def restart(self):
         self._queue('restart')

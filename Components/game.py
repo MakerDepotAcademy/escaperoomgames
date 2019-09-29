@@ -67,9 +67,8 @@ class Game(ABC):
 
   def killed(self):
     if self._alive == False:
-      for b in self.manager:
-        b.resetall()
-        b.closeall()
+      self.manager.resetall()
+      self.manager.closeall()
       self.once_killed()
       raise GameKilled('Game has been killed')
 
@@ -84,8 +83,8 @@ class Game(ABC):
       i -= 1
       sleep(1)
 
-  def _gameLoop(self):
-    self.gameLogic()
+  def _gameLoop(self, form):
+    self.gameLogic(form)
     self.kill(True)
 
   def _gameTimer(self):

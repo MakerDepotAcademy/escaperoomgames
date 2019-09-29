@@ -74,7 +74,7 @@ def assignPlayers(player_count, boards):
   S = cycle(range(0, 32, 8))
 
   for i in range(player_count):
-    b += len(Players) > Settings.Board_Player_Limit
+    b += len(Players) // 4
     s = next(S)
     p = Player(boards[b], s, i + 1)
     Players.append(p)
