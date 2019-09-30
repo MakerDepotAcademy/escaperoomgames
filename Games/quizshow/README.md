@@ -3,8 +3,19 @@
 This is a quizshow
 
 - [quizshow](#quizshow)
+  - [Endpoints](#endpoints)
   - [Config file](#config-file)
   - [Display](#display)
+
+## Endpoints
+
+Quizshow only modifies one endpoint
+
+POST /start: requires a form body 
+
+```curl
+playerCount=The number of players to enable
+```
 
 ## Config file
 
