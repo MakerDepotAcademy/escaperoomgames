@@ -73,6 +73,9 @@ class QuizShowGame(Game):
       self.block()
       ans = player.catchAnswer(ROUND_TIME, self.round_tick)
       
+      if ans is None:
+        raise Exception('Answer cannot be none')
+
       if ans == '':
         self.disp.timeout()
       else:
