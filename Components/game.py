@@ -19,6 +19,8 @@ class Game(ABC):
     self._config = toml.load(configpath)
     self.manager = Manager(self.get_config('BOARD', 'STACK').split(','))
     self.meta = {}
+    self.meta['time'] = {}
+    self.meta['config'] = self._config
     self._alive = True
     self._lifespan = self.get_config('TIME', 'GAME_TIME', type=int, default=300)
     self._playing = False
@@ -94,6 +96,7 @@ class Game(ABC):
       self.sleep()
       i -= 1
       self.game_tick(i)
+      self.meta['time']['game_ticks'] = i
       if i == 0:
         # Kill game
         self.kill(True)
@@ -104,6 +107,7 @@ class Game(ABC):
       self.round_tick(i)
       self.sleep()
       i -= 1
+      self.meta['time']['round_ticks'] = i
     self.round_tick(-1)
     self._playing = False
       

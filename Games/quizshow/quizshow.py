@@ -21,13 +21,17 @@ class QuizShowGame(Game):
     self.disp.setRoundTimer(time)
 
   def once_killed():
-    print('Killed')
+    self.disp.restart()
 
   def pause_change(paused):
     print('Pause')
     print(paused)
 
   def addScore(self, s):
+    if s > 0:
+      self.meta['score']['correct'] += s
+    elif s < 0:
+      self.meta['score']['wrong'] += s
     self.disp.setScore(s)
 
   def gameLogic(self, form):
