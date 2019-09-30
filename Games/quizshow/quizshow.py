@@ -27,7 +27,7 @@ class QuizShowGame(Game):
     print('Pause')
     print(paused)
 
-  def addScore(self, s=None):
+  def addScore(self, s):
     if s > 0:
       self.meta['score']['correct'] += s
     
