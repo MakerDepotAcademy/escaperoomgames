@@ -36,16 +36,25 @@ function error {
 
 function install_service {
   NAME=$1
+  REPLACE=$2
+  echo "Installing service named $1"
   cd $ROOT/Targets/assets/selfupdater
   cp ./$NAME.service /etc/systemd/system/
   cd /etc/systemd/system/
-  # sed -i "s/REPLACEME/$2/" $NAME.service
-  python3 $ROOT/Targets/assets/selfupdater/findreplace.py $NAME.service $2
+  echo "Rewriting markers"
+  python3 $ROOT/Targets/assets/selfupdater/findreplace.py $NAME.service $REPLACE
   chmod 644 $NAME.service
+  echo "Enabling service ..."
   systemctl daemon-reload
   systemctl enable $NAME
   systemctl start $NAME
+  echo "$1 service complete"
   cd $ROOT
+}
+
+function download_pip {
+  echo "Downloading pip requirements"
+  pip install -r requirements.txt
 }
 
 if [[ -z $TYPE || -z $THING ]]
@@ -81,7 +90,8 @@ fi
 
 echo "Installing updater"
 cd $ROOT/Targets/assets/selfupdater
-pip3 install -r requirements.txt
+echo "Downloading requirements"
+download_pip
 install_service "self_updater" $ROOT
 
 if [[ "$TYPE" == "game" ]]
@@ -90,7 +100,7 @@ then
   cd $ROOT/Games/$THING
   if [ -a requirements.txt ]
   then
-    pip3 install -r requirements.txt
+    download_pip
   fi
   install_service "game_runner" $ROOT/Games/$THING/$THING.py
 fi
@@ -99,13 +109,12 @@ if [[ "$TYPE" == "display" ]]
 then
   echo "Installing the $THING display"
   DISP=$DDISPLAYS/$THING
-  AUTOSTART=$DISP/autostart
   cd $DISP
   npm install
   echo ". autostart" >> ~/.bashrc
-  echo "cd $DISP" > $AUTOSTART
-  echo "npm start" >> $AUTOSTART
   cd ~
-  ln -s $AUTOSTART autostart
+  echo "cd $DISP" > autostart
+  echo "npm start" >> autostart
+  chmod +x autostart
   echo "Restart machine to load display"
 fi
