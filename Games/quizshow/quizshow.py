@@ -28,12 +28,6 @@ class QuizShowGame(Game):
     print(paused)
 
   def addScore(self, s):
-    if s > 0:
-      self.meta['score']['correct'] += s
-    
-    if s < 0:
-      self.meta['score']['wrong'] += s
-
     self.disp.setScore(s)
 
   def gameLogic(self, form):
