@@ -48,7 +48,11 @@ class Display():
         self._queue(self._getLabel(label, 'selected'))
 
     def setScore(self, score):
-        pass
+        if score > 0:
+            self._queue('score.correct', abs(score))
+        
+        if score < 0:
+            self._queue('score.wrong', abs(score))
 
     def setRoundTimer(self, secs):
         self._queue('roundtick', secs)

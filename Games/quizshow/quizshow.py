@@ -28,9 +28,13 @@ class QuizShowGame(Game):
     print(paused)
 
   def addScore(self, s=None):
-    if s is not None:
-      self.meta['score'] += s
-    return self.meta['score']
+    if s > 0:
+      self.meta['score']['correct'] += s
+    
+    if s < 0:
+      self.meta['score']['wrong'] += s
+
+    self.disp.setScore(s)
 
   def gameLogic(self, form):
     # Pregame prep
@@ -45,7 +49,9 @@ class QuizShowGame(Game):
     Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = cyclePlayers(plyrs)
 
-    self.meta['score'] = 0
+    self.meta['score'] = {}
+    self.meta['score']['correct'] = 0
+    self.meta['score']['wrong'] = 0
 
     while True:
       # Match player to question
@@ -79,8 +85,6 @@ class QuizShowGame(Game):
           self.disp.doWrong()
           self.disp.setSelected(ans)
           self.addScore(-1)
-
-      self.disp.setScore(self.meta['score'])
 
       # Step 4 disinvite player
       self.disp.flush()
