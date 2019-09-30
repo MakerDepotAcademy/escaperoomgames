@@ -69,10 +69,7 @@ class Game(ABC):
 
   def killed(self):
     if self._alive == False:
-      self.manager.resetall()
-      self.manager.closeall()
-      self.once_killed()
-      raise GameKilled('Game has been killed')
+      os.kill(os.getpid(), signal.SIGQUIT)
 
   def block(self):
     self.killed()
