@@ -40,7 +40,7 @@ class QuizShowGame(Game):
     self.disp.setRoundTimer(ROUND_TIME)
     self.disp.setGameTimer(self.get_config('TIME', 'GAME_TIME', type=int, default=300))
     
-    # self.disp.playAudio(self.get_config('MUSIC', 'START'))
+    self.disp.playVideo(self.get_config('VIDEOS', 'SPLASH', type=str))
     self.sleep(self.get_config('TIME', 'START_DELAY', type=int, default=1))
 
     plyrs = assignPlayers(int(form['playerCount']), self.manager)

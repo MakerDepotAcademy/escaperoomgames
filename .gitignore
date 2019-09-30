@@ -124,3 +124,4 @@ dmypy.json
 .pyre/
 pnpm-lock.yaml
 Targets/assets/selfupdater/.last
+*.mp4
