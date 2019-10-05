@@ -1,8 +1,8 @@
 import toml
 
-from flask import Flask, request
-from abc import ABC, abstractmethod
-from time import sleep
+from flask     import Flask, request
+from abc       import ABC, abstractmethod
+from time      import sleep
 from threading import Thread
 
 from components.pause import Pause
@@ -119,7 +119,41 @@ class Game(ABC):
   def __call__(self, port=5000):
     self.serve(port)
 
+
+
+
   def serve(self, port=5000):
+
+    @self._api.route('/init', methods=['POST'])
+    def game_init():
+
+    @self._api.route('/start')
+    def game_start():
+
+    @self._api.route('/stop')
+    def game_stop():
+
+    @self._api.route('/pause')
+    def game_pause():
+
+    @self._api.route('/resume')
+    def game_resume():
+
+    @self._api.route('/restart')
+    def game_restart():
+
+    @self._api.route('/reset')    
+    def game_reset():
+
+    @self._api.route('/getScore', methods=['GET'])
+    def game_getScore():
+
+    @self._api.route('/getTime', methods=['GET'])
+    def game_getTime():
+
+
+
+
     @self._api.route('/start', methods=['POST'])
     def flask_start_game():
       self._playing = True
