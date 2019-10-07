@@ -31,20 +31,17 @@ START_DELAY=10 # How long to wait to play the game (set to the length of the spl
 [BOARD]
 STACK="10" # The order inwhich the gpio32 board ids should appear
 
-[DATABASE]
-URL="sqlite:///quizShow.db" # The database url
-
 [LINK]
-DISP="localhost:8080"
-DB_URL="sqlite:///quizShow.db"
+DISP="localhost:8080" # The display host
+DB_URL="sqlite:///quizShow.db" # The database url
 
 [VIDEOS]
-SPLASH=""
+SPLASH="" # The splash video to run at the start
 
 [MUSIC]
-START=""
-CORRECT=""
-WRONG=""
+START="" # The start music
+CORRECT="" # The correct tone
+WRONG="" # The wrong tone
 ```
 
 ## Display
