@@ -113,8 +113,9 @@ then
   npm install
   echo ". autostart" >> ~/.bashrc
   cd ~
-  echo "cd $DISP" > autostart
-  echo "npm start" >> autostart
-  chmod +x autostart
+  echo "export DISPLAY=:0" > autostart.sh
+  echo "cd $DISP" > autostart.sh
+  echo "screen -dms display npm start" >> autostart.sh
+  chmod +x autostart.sh
   echo "Restart machine to load display"
 fi
