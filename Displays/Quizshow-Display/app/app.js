@@ -60,11 +60,11 @@ listenflash('timeout', 1000)
 
 listener('score.correct', '#scorecorrect', (opts) => {
   let e = document.querySelector(opts.query)
-  e.textContent = parseInt(e.textContent) + (opts.arg || 1)
+  e.textContent = opts.arg
 });
 listener('score.wrong', '#scorewrong', (opts) => {
   let e = document.querySelector(opts.query)
-  e.textContent = parseInt(e.textContent) - (opts.arg || 1)
+  e.textContent = opts.arg
 })
 
 listener('player', '#player', opts => {

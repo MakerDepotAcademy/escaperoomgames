@@ -42,6 +42,16 @@ wss.on('connection', ws => {
         })
         continue
       }
+      if (key == 'restart'){
+        updateUI('question', '', ws)
+        updateUI('red', '', ws)
+        updateUI('blue', '', ws)
+        updateUI('green', '', ws)
+        updateUI('yellow', '', ws)
+        updateUI('gametick', '', ws)
+        updateUI('roundtick', '', ws)
+        continue
+      }
       updateUI(key, msg[key], ws)
     }
   })
