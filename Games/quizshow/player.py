@@ -74,7 +74,6 @@ def assignPlayers(player_count, boards):
   Players = []
 
   pod_lut = [       # Podium look-up-table
-    (2),            # 1
     (2, 3),         # 2
     (1, 2, 3),      # 3
     (1, 2, 3, 4),   # 4
