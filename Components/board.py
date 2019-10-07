@@ -70,48 +70,28 @@ class Board():
     return self._prompt('r')
 
   def awaitChange(self, pins, timeout, timeout_tick=None):
-    def m(l):
-      return re.match(r'[01]', l.decode())
-
-    def readline(t=timeout):
-      l = ''
-      while t > 0:
+    def read():
+      while timeout > 0:
         l = self._ser.readline()
-        if l == b'':
-          t -= 1
-          if timeout_tick:
-            timeout_tick(t)
-        else:
+        timeout -= 1
+        timeout_tick(timeout)
+        if re.match(r'[01]+', l.decode()):
           return l
       raise TimeoutError()
-   
-    for p in pins:
-      self.setInput(p, True)
-    self.run()
+        
+    buffer = read()
 
-    print(pins)
-    try:
-      while True:
-        readline(1)
-    except TimeoutError:
-      pass
-
-    last = ''
-    while not last:
-      last = readline()
-      last = '' if not m(last) else last
-      
     while True:
-      l = readline()
-      if l == last:
-        continue
-      
-      if m(l): 
+      buffer += read()
+      s = buffer.splitlines()
+      new = s[-1]
+      last = s[-2]
+      if new != last:
         for p in pins:
-          if l[p] != last[p]:
+          if new[p] != last[p]:
+            del buffer
             return p
-
-        last = l
+    
 
 class Manager():
   

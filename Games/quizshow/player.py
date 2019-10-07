@@ -67,6 +67,8 @@ class Player():
       if ret == b(i):
         return CHOICES[i]
 
+    raise Exception('Failed to catch answer')
+
 
 def assignPlayers(player_count, boards):
   Players = []
