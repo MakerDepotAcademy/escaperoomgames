@@ -37,9 +37,13 @@ wss.on('connection', ws => {
     for (let key in msg) {
       if (key == 'audioplay'){
         console.log('Playing ', msg[key])
-        player.play(msg[key], { timeout: 300 }, function(err){
-          if (err) throw err
+        new Promise(resolve => {
+          player.play(msg[key], { timeout: 300 }, function(err){
+            if (err) throw err
+            resolve(err)
+          })
         })
+        
         continue
       }
       if (key == 'restart'){
