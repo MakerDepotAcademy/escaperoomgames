@@ -27,12 +27,18 @@ class QuizShowGame(Game):
     print('Pause')
     print(paused)
 
+  def _set_score(self):
+    self.disp.setScore(int(self.team))
+
   def addScore(self, s):
-    if s > 0:
-      self.meta['score']['correct'] += s
-    elif s < 0:
-      self.meta['score']['wrong'] += s
-    self.disp.setScore(s)
+    self.meta['score']['correct'] += s
+    self.team += s
+    self._set_score()
+
+  def subScore(self, s):
+    self.meta['score']['wrong'] += s
+    self.team -= s
+    self._set_score()
 
   def gameLogic(self, form):
     # Pregame prep
@@ -43,7 +49,7 @@ class QuizShowGame(Game):
     self.disp.playVideo(self.get_config('VIDEOS', 'SPLASH', type=str))
     self.sleep(self.get_config('TIME', 'START_DELAY', type=int, default=1))
 
-    plyrs = assignPlayers(int(form['playerCount']), self.manager)
+    plyrs = assignPlayers(len(self.team), self.manager)
     Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = cyclePlayers(plyrs)
 
@@ -85,7 +91,7 @@ class QuizShowGame(Game):
         else:
           self.disp.doWrong()
           self.disp.setSelected(ans)
-          self.addScore(-1)
+          self.subScore(1)
 
       # Step 4 disinvite player
       self.disp.flush()

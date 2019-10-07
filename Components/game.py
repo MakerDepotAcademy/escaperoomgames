@@ -147,7 +147,7 @@ class Game(ABC):
       self.meta['time']['round_ticks'] = i
     self.round_tick(-1)
     self._playing = False
-      
+
   def startRound(self):
     """
     Starts a round
@@ -208,3 +208,27 @@ class Game(ABC):
       return 'killed'
 
     self._api.run(host='0.0.0.0', port=port)
+
+
+class Team():
+
+  def __init__(self, name, id, pc):
+    self.name = name
+    self.pc = pc
+    self.score = 0
+
+  def __len__(self):
+    return self.pc
+
+  def __str__(self):
+    return self.name
+
+  def __int__(self):
+    return self.score
+
+  def __iadd__(self, o):
+    self.score += o
+
+  def __isub__(self, o):
+    self.score -= o
+
