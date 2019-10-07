@@ -12,8 +12,16 @@ class GameKilled(Exception):
   pass
 
 class Game(ABC):
+  """
+  Provides a wrapper for game in/out interactions
+  """
 
   def __init__(self, configpath):
+    """
+    Initalizes a new game wrapper
+
+    :configpath <str> The path to the settings file
+    """
     self._api = Flask(__name__)
     self._pause = Pause(self.pause_change)
     self._config = toml.load(configpath)
@@ -47,6 +55,14 @@ class Game(ABC):
     pass
 
   def get_config(self, scope, arg, **kwargs):
+    """
+    Gets an item from the config file
+
+    :scope <str> the scope to look at
+    :arg <str> the argument to get
+    :default= <> a default value to be returned if an appropriate item cannot be found
+    :type= <type> typecasts item to this type
+    """
     default = kwargs.pop('default', None)
     _type = kwargs.pop('type', str)
 
@@ -63,19 +79,35 @@ class Game(ABC):
         return _type(default)
 
   def kill(self, force=False):
+    """
+    Marks the game to safely quit
+
+    :force <bool> force game to be killed immediatly
+    """
     self._alive = False
     if force:
       self.killed()
 
   def killed(self):
+    """
+    If game has been marked "kill", actually kill the game
+    """
     if self._alive == False:
       os.kill(os.getpid(), signal.SIGQUIT)
 
   def block(self):
+    """
+    To be used as a generic blocking method. Entering this method will test if the game is paused or has been killed
+    """
     self.killed()
     self._pause.block_if_paused()
 
   def sleep(self, t=1):
+    """
+    Provides an interruptable sleep method
+
+    :t <int> how long to sleep for
+    """
     i = t
     while i > 0:
       self.block()
@@ -83,10 +115,16 @@ class Game(ABC):
       sleep(1)
 
   def _gameLoop(self, form):
+    """
+    The gameloop thread method
+    """
     self.gameLogic(form)
     self.kill(True)
 
   def _gameTimer(self):
+    """
+    The game timer thread method
+    """
     # This will nuke threads too, thanks brad
     i = self._lifespan
     while i > 0 and self._playing:
@@ -95,10 +133,12 @@ class Game(ABC):
       self.game_tick(i)
       self.meta['time']['game_ticks'] = i
       if i == 0:
-        # Kill game
         self.kill(True)
 
   def _roundTimer(self):
+    """
+    The round timer thread method
+    """
     i = self._roundtime
     while i > 0 and self._playing:
       self.round_tick(i)
@@ -108,22 +148,37 @@ class Game(ABC):
     self.round_tick(-1)
     self._playing = False
       
-
   def startRound(self):
+    """
+    Starts a round
+    """
     t = Thread(target=self._roundTimer)
     t.start()
 
   def stopRound(self):
+    """
+    Stop the round
+    """
     self._playing = False
 
   def __call__(self, port=5000):
+    """
+    Alias for self.serve()
+    """
     self.serve(port)
 
   def serve(self, port=5000):
+    """
+    Serves a set of http endpoints 
+
+    :port <int=5000> what port to listen on
+    """
     @self._api.route('/start', methods=['POST'])
     def flask_start_game():
       self._playing = True
       self._alive = True
+      self.team = Team(request.form['team_name'], request.form['team_id'], request.form['team_playerCount'])
+      self.meta['from'] = request.form.to_dict()
       self._gameloopthread = Thread(target=self._gameLoop, args=[request.form.to_dict()])
       self._gametimerthread = Thread(target=self._gameTimer)
       self._gameloopthread.start()
