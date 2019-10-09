@@ -67,24 +67,35 @@ class Player():
       if ret == b(i):
         return CHOICES[i]
 
+    raise Exception('Failed to catch answer')
+
 
 def assignPlayers(player_count, boards):
   Players = []
-  b = 0
-  S = cycle(range(0, 32, 8))
 
-  for i in range(player_count):
-    b += len(Players) // 4
-    s = next(S)
-    p = Player(boards[b], s, i + 1)
-    Players.append(p)
+  pod_lut = [       # Podium look-up-table
+    (2, 3),         # 2
+    (1, 2, 3),      # 3
+    (1, 2, 3, 4),   # 4
+    (0, 1, 2, 3, 4) # 5
+  ]
+
+  for pod in iter(pod_lut[player_count - 1]):
+    offset = 8 * (pod if pod < 4 else 0)
+    board = board[0 if pod < 4 else 1]
+    Players.append(Player(board, offset))
 
   return Players
 
 def cyclePlayers(players):
   # return cycle(players)
+  l = players
   while True:
     p = players
-    shuffle(p)
+    while l[-1] == p[0]:
+      shuffle(p)
+    
     for i in p:
       yield i
+
+    l = p

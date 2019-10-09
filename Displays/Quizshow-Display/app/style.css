@@ -106,7 +106,7 @@ body{
 #stats {
   border: 2px solid greenyellow;
   text-align: left !important;
-  max-width:14em;
-  width:12em;
+  max-width:16em;
+  width:16em;
   position: absolute;
 }
