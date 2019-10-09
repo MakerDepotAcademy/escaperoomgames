@@ -42,7 +42,7 @@ Posts new settings for the display. Setting are provided as a JSON object in the
   'gametick': 'Set the current game tick',
   'roundsup': '',
   'gameover': '',
-  'wrong': ''
+  'wrong': '',
   'videoplay': 'Play a video from the path you set here',
   'audioplay': 'Play audio from the path you set here'
 }
