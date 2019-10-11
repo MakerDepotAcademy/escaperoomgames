@@ -83,6 +83,7 @@ class QuizShowGame(Game):
 
       if ans == '':
         self.disp.timeout()
+        self.addScore(-1)
       else:
         if question == ans:
           self.disp.setCorrect(ans)
