@@ -171,45 +171,11 @@ class Game(ABC):
 
 
   def serve(self, port=5000):
-<<<<<<< HEAD
-
-    @self._api.route('/init', methods=['POST'])
-    def game_init():
-
-    @self._api.route('/start')
-    def game_start():
-
-    @self._api.route('/stop')
-    def game_stop():
-
-    @self._api.route('/pause')
-    def game_pause():
-
-    @self._api.route('/resume')
-    def game_resume():
-
-    @self._api.route('/restart')
-    def game_restart():
-
-    @self._api.route('/reset')    
-    def game_reset():
-
-    @self._api.route('/getScore', methods=['GET'])
-    def game_getScore():
-
-    @self._api.route('/getTime', methods=['GET'])
-    def game_getTime():
-
-
-
-
-=======
     """
     Serves a set of http endpoints 
 
     :port <int=5000> what port to listen on
     """
->>>>>>> bdace219603ac1d665bb0f5e9925851136de8c91
     @self._api.route('/start', methods=['POST'])
     def flask_start_game():
       self._playing = True
