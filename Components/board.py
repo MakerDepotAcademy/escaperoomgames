@@ -146,7 +146,7 @@ class Board():
     :timeout <int> how long to wait
     :timeout_tick <callable> runs every second these pins aren't interrupted
     """
-    def read():
+    def read(timeout=timeout):
       while timeout > 0:
         l = self._ser.readline()
         timeout -= 1
