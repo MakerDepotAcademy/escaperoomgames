@@ -7,7 +7,6 @@ from player import assignPlayers, cyclePlayers
 import questions
 from display import Display, displayQuestion
 
-
 class QuizShowGame(Game):
 
   def __init__(self):
