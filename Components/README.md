@@ -159,6 +159,14 @@ Serves an `http` endpoint for controlling the game
 
 Starts the game
 
+Body:
+
+```curl
+team_name=name
+team_id=aksnaskvnslkdng
+team_playerCount=2
+```
+
 #### GET /pause
 
 Toggles the internal pausing mechanism

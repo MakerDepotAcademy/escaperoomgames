@@ -7,7 +7,6 @@ from player import assignPlayers, cyclePlayers
 import questions
 from display import Display, displayQuestion
 
-
 class QuizShowGame(Game):
 
   def __init__(self):
@@ -84,6 +83,7 @@ class QuizShowGame(Game):
 
       if ans == '':
         self.disp.timeout()
+        self.addScore(-1)
       else:
         if question == ans:
           self.disp.setCorrect(ans)

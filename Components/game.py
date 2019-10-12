@@ -1,4 +1,4 @@
-import toml
+import toml, os
 
 from flask     import Flask, request
 from abc       import ABC, abstractmethod
@@ -217,7 +217,7 @@ class Team():
 
   def __init__(self, name, id, pc):
     self.name = name
-    self.pc = pc
+    self.pc = int(pc)
     self.score = 0
 
   def __len__(self):
