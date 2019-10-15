@@ -2,10 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+doxygen/*
+*.log
 # C extensions
 *.so
-
+node_modules/
+.vscode/
 # Distribution / packaging
 .Python
 build/
