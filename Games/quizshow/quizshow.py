@@ -56,8 +56,6 @@ class QuizShowGame(Game):
     Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = cyclePlayers(plyrs)
 
-    
-
     while True:
       # Match player to question
       question = next(Q)

@@ -222,11 +222,11 @@ class Manager():
     Closes all drivers
     """
     for k in self._boards:
-      self._boards[k].close()
+      k.close()
 
   def resetall(self):
     """
     Resets all drivers
     """
     for k in self._boards:
-      self._boards[k].reset()
+      k.reset()
