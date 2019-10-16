@@ -196,7 +196,10 @@ class Game(ABC):
 
     @self._api.route('/score')
     def flask_get_score():
-      return int(self.team)
+      try:
+        return int(self.team)
+      except AttributeError:
+        return "Team doesn't exist because game hasn't started"
 
     @self._api.route('/dump')
     def flask_dump():
