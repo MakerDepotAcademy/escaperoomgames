@@ -54,6 +54,10 @@ wss.on('connection', ws => {
         updateUI('yellow', '', ws)
         updateUI('gametick', '', ws)
         updateUI('roundtick', '', ws)
+        updateUI('score.correct', '', ws)
+        updateUI('score.wrong', '', ws)
+        updateUI('gametick', '', ws)
+        updateUI('roundtick', '', ws)
         continue
       }
       updateUI(key, msg[key], ws)
