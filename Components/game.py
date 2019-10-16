@@ -93,6 +93,7 @@ class Game(ABC):
     If game has been marked "kill", actually kill the game
     """
     if self._alive == False:
+      self.once_killed()
       os.kill(os.getpid(), signal.SIGQUIT)
 
   def block(self):
