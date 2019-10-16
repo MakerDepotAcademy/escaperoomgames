@@ -151,7 +151,7 @@ class Board():
       raise TimeoutError()
 
     for p in pins:
-      self.setInput(p)
+      self.setInput(p, True)
     self.run()
         
     buffer = read()
