@@ -80,10 +80,10 @@ def assignPlayers(player_count, boards):
     (0, 1, 2, 3, 4) # 5
   ]
 
-  for pod in iter(pod_lut[player_count - 2]):
+  for i, pod in enumerate(iter(pod_lut[player_count - 2])):
     offset = 8 * (pod if pod < 4 else 0)
     board = boards[0 if pod < 4 else 1]
-    Players.append(Player(board, offset))
+    Players.append(Player(board, offset, i + 1))
 
   return Players
 
