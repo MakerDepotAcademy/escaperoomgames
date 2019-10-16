@@ -56,6 +56,11 @@ class QuizShowGame(Game):
     Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = cyclePlayers(plyrs)
 
+    for b in self.manager:
+      for i in range(32):
+        b.turnoff(i)
+      b.run()
+
     while True:
       # Match player to question
       question = next(Q)
