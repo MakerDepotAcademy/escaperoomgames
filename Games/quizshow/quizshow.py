@@ -13,6 +13,10 @@ class QuizShowGame(Game):
     Game.__init__(self, os.getcwd() + '/config.cfg')
     self.disp = Display(self.get_config('LINK','DISP'), correct_music=self.get_config('MUSIC', 'START'), wrong_music=self.get_config('MUSIC', 'WRONG'))
 
+    self.meta['score'] = {}
+    self.meta['score']['correct'] = 0
+    self.meta['score']['wrong'] = 0
+
   def game_tick(self, time):
     self.disp.setGameTimer(time)
 
@@ -52,9 +56,7 @@ class QuizShowGame(Game):
     Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = cyclePlayers(plyrs)
 
-    self.meta['score'] = {}
-    self.meta['score']['correct'] = 0
-    self.meta['score']['wrong'] = 0
+    
 
     while True:
       # Match player to question
