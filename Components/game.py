@@ -1,4 +1,4 @@
-import toml, os
+import toml, os, json
 
 from flask     import Flask, request
 from abc       import ABC, abstractmethod
@@ -167,9 +167,6 @@ class Game(ABC):
     """
     self.serve(port)
 
-
-
-
   def serve(self, port=5000):
     """
     Serves a set of http endpoints 
@@ -199,7 +196,7 @@ class Game(ABC):
 
     @self._api.route('/score')
     def flask_get_score():
-      return str(Scores.score)
+      return int(self.team)
 
     @self._api.route('/dump')
     def flask_dump():
