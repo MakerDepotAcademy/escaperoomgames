@@ -228,7 +228,9 @@ class Team():
 
   def __iadd__(self, o):
     self.score += o
+    return self
 
   def __isub__(self, o):
     self.score -= o
+    return self
 
