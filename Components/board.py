@@ -52,13 +52,8 @@ class Board():
     """
     Resets the board
     """
-
-    def r(c):
-      self.queue = c * 32
-      self.run()
-    r('U')
-    r('I')
-    r('0')
+    self.queue = 'u' * 32
+    self.run()
 
   def _setpin(self, pin, val):
     """
