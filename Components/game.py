@@ -203,7 +203,7 @@ class Game(ABC):
 
     @self._api.route('/dump')
     def flask_dump():
-      return self.meta
+      return json.dumps(self.meta)
 
     @self._api.route('/kill')
     def flask_kill():
