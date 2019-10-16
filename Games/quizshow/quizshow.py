@@ -12,7 +12,7 @@ class QuizShowGame(Game):
   def __init__(self):
     Game.__init__(self, os.getcwd() + '/config.cfg')
     self.disp = Display(self.get_config('LINK','DISP'), correct_music=self.get_config('MUSIC', 'START'), wrong_music=self.get_config('MUSIC', 'WRONG'))
-
+    self.disp.restart()
     self.meta['score'] = {}
     self.meta['score']['correct'] = 0
     self.meta['score']['wrong'] = 0

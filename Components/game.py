@@ -118,6 +118,7 @@ class Game(ABC):
     """
     The gameloop thread method
     """
+    self.manager.resetall()
     self.gameLogic(form)
     self.kill(True)
 
