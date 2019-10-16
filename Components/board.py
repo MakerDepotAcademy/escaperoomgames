@@ -149,6 +149,10 @@ class Board():
         if re.match(r'[01]+', l.decode()):
           return l
       raise TimeoutError()
+
+    for p in pins:
+      self.setInput(p)
+    self.run()
         
     buffer = read()
 
