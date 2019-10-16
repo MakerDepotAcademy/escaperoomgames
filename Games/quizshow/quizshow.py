@@ -45,6 +45,7 @@ class QuizShowGame(Game):
 
   def gameLogic(self, form):
     # Pregame prep
+    self.disp.restart()
     ROUND_TIME = self.get_config('TIME', 'ROUND_TIME', type=int, default=10)
     self.disp.setRoundTimer(ROUND_TIME)
     self.disp.setGameTimer(self.get_config('TIME', 'GAME_TIME', type=int, default=300))
