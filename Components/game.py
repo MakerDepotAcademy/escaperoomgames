@@ -179,7 +179,7 @@ class Game(ABC):
       self._playing = True
       self._alive = True
       self.team = Team(request.form['team_name'], request.form['team_id'], request.form['team_playerCount'])
-      self.meta['from'] = request.form.to_dict()
+      self.meta['form'] = request.form.to_dict()
       self._gameloopthread = Thread(target=self._gameLoop, args=[request.form.to_dict()])
       self._gametimerthread = Thread(target=self._gameTimer)
       self._gameloopthread.start()
