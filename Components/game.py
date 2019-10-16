@@ -69,8 +69,8 @@ class Game(ABC):
     if default is not None and type(default) != _type:
       raise TypeError('default= must be %s' % type(_type))
     
-    t = self._config[scope]
     try:
+      t = self._config[scope]
       return _type(t[arg])
     except KeyError as e:
       if default is None:
