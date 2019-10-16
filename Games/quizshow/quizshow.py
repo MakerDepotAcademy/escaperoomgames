@@ -58,7 +58,7 @@ class QuizShowGame(Game):
 
     for b in self.manager:
       for i in range(32):
-        b.turnoff(i)
+        b.turnOff(i)
       b.run()
 
     while True:
