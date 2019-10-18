@@ -3,7 +3,7 @@ import sys, os
 sys.path.append('./components')
 from components.game import Game
 
-from player import assignPlayers, cyclePlayers
+from player import assignPlayers, cyclePlayers, NoAnswer
 import questions
 from display import Display, displayQuestion
 
@@ -88,6 +88,8 @@ class QuizShowGame(Game):
         self.disp.timeout()
         self.subScore(1)
         self.sleep(1)
+        continue
+      except NoAnswer:
         continue
       
       if ans is None:

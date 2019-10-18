@@ -5,6 +5,9 @@ from itertools import cycle
 from questions import CHOICES
 from components.board import Manager as M
 
+class NoAnswer(Exception):
+  pass
+
 class Button():
 
   def __init__(self, board, pin_out, pin_in):
@@ -64,7 +67,7 @@ class Player():
       if ret == b(i):
         return CHOICES[i]
 
-    raise Exception('Failed to catch answer')
+    raise NoAnswer
 
 
 def assignPlayers(player_count, boards):
