@@ -82,22 +82,24 @@ class QuizShowGame(Game):
 
       # Step 3: Judge answer
       self.block()
-      ans = player.catchAnswer(ROUND_TIME, self.round_tick)
+      try:
+        ans = player.catchAnswer(ROUND_TIME, self.round_tick)
+      except TimeoutError:
+        self.disp.timeout()
+        self.subScore(1)
+        self.sleep(1)
+        continue
       
       if ans is None:
         raise Exception('Answer cannot be none')
 
-      if ans == '':
-        self.disp.timeout()
-        self.subScore(1)
+      if question == ans:
+        self.disp.setCorrect(ans)
+        self.addScore(1)
       else:
-        if question == ans:
-          self.disp.setCorrect(ans)
-          self.addScore(1)
-        else:
-          self.disp.doWrong()
-          self.disp.setSelected(ans)
-          self.subScore(1)
+        self.disp.doWrong()
+        self.disp.setSelected(ans)
+        self.subScore(1)
 
       # Step 4 disinvite player
       self.disp.flush()

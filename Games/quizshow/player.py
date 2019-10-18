@@ -58,10 +58,7 @@ class Player():
       else:
         return [b(i) for i in range(len(CHOICES))]
         
-    try:
-      ret = self._board.awaitChange(b(), timeout, timeout_tick)
-    except TimeoutError as e:
-      return ''
+    ret = self._board.awaitChange(b(), timeout, timeout_tick)
 
     for i in range(3):
       if ret == b(i):
