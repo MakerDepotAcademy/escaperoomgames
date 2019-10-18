@@ -5,6 +5,9 @@ import re
 from random import randint
 from time import sleep
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Board():
   """
@@ -50,16 +53,20 @@ class Board():
 
   def reset(self):
     """
-    Resets the board
+    Resets the board to default input pullup state
     """
     self.queue = 'u' * 32
     self.run()
 
   def _setpin(self, pin, val):
     """
-    Sets a pin to a value (buffred)
+    Sets a pin to a value (buffered)
     """
-    self.queue[pin] = val
+    if pin >= 1 and pin <= 32:
+      self.queue[pin-1] = val
+      return self
+    else:
+      return False
 
   def _prompt(self, p):
     """
@@ -88,23 +95,30 @@ class Board():
     """
     self._setpin(pin, '0')
 
-  def setInput(self, pin, inverse=False):
+  def setInput(self, pin, pullup=True,interrupt=True):
     """
     Sets a pin to input interrupt
 
     :pin <int> the pin
-    :inverse <bool=False> if True sets pin to "pull down"
+    :pullup <bool=True> if false sets pin to "no pull"
     """
-    self._setpin(pin, 'u' if inverse else 'i')
+    newState = 'U' if pullup else 'I'
+    if (interrupt):
+      newState=newState.lower()
 
-  def unsetInput(self, pin, inverse=False):
+    self._setpin(pin, newState)
+    return self
+
+  def setOutput(self, pin, direction=True,interrupt=True):
     """
-    Unsets a pin as input
-
+    Sets a pin to input interrupt
     :pin <int> the pin
-    :inverse <bool=False> if True sets pin to "pull down"
+    :direction <bool=True> if false sets pin to "no pull"
     """
-    self._setpin(pin, 'U' if inverse else 'I')
+    newState = '1' if direction else '0'
+
+    self._setpin(pin, newState)
+    return self
 
   def setInterrupt(self, pin, enabled=True):
     """
@@ -114,6 +128,7 @@ class Board():
     :enabled <bool=True> sets the status of the pin
     """
     self._setpin(pin, 'e' if enabled else 'd')
+    return self
 
   def getID(self):
     """
@@ -229,3 +244,26 @@ class Manager():
     """
     for k in self._boards:
       k.reset()
+
+
+if __name__ == "__main__":
+  import sys
+  from time import sleep
+  FORMAT = '%(asctime)-15s %(name)s : %(message)s'
+  logging.basicConfig(filename='board.log',format=FORMAT,level=logging.NOTSET)
+
+  logger = logging.getLogger(__name__)
+
+  DUT = Board(sys.argv[1])
+  DUT.reset()
+  logger.debug("Board Reset")
+  sleep(1)
+  for x in list(range(1,33)):
+    logger.debug("Test Pin %i"%x)
+    DUT.setOutput(x,True).run()
+    sleep(.1)
+    DUT.setOutput(x,False).run()
+    sleep(.1)
+    DUT.setInput(x,True).run()
+
+  print("test passed")
