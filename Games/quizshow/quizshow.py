@@ -3,7 +3,7 @@ import sys, os
 sys.path.append('./components')
 from components.game import Game
 
-from player import assignPlayers, cyclePlayers
+from player import assignPlayers, cyclePlayers, NoAnswer
 import questions
 from display import Display, displayQuestion
 
@@ -12,6 +12,10 @@ class QuizShowGame(Game):
   def __init__(self):
     Game.__init__(self, os.getcwd() + '/config.cfg')
     self.disp = Display(self.get_config('LINK','DISP'), correct_music=self.get_config('MUSIC', 'START'), wrong_music=self.get_config('MUSIC', 'WRONG'))
+    self.disp.restart()
+    self.meta['score'] = {}
+    self.meta['score']['correct'] = 0
+    self.meta['score']['wrong'] = 0
 
   def game_tick(self, time):
     self.disp.setGameTimer(time)
@@ -41,6 +45,7 @@ class QuizShowGame(Game):
 
   def gameLogic(self, form):
     # Pregame prep
+    self.disp.restart()
     ROUND_TIME = self.get_config('TIME', 'ROUND_TIME', type=int, default=10)
     self.disp.setRoundTimer(ROUND_TIME)
     self.disp.setGameTimer(self.get_config('TIME', 'GAME_TIME', type=int, default=300))
@@ -52,9 +57,10 @@ class QuizShowGame(Game):
     Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = cyclePlayers(plyrs)
 
-    self.meta['score'] = {}
-    self.meta['score']['correct'] = 0
-    self.meta['score']['wrong'] = 0
+    for b in self.manager:
+      for i in range(32):
+        b.turnOff(i)
+      b.run()
 
     while True:
       # Match player to question
@@ -76,22 +82,24 @@ class QuizShowGame(Game):
 
       # Step 3: Judge answer
       self.block()
-      ans = player.catchAnswer(ROUND_TIME, self.round_tick)
+      try:
+        ans = player.catchAnswer(ROUND_TIME, self.round_tick)
+      except TimeoutError:
+        self.disp.timeout()
+        self.subScore(1)
+        self.sleep(1)
+        continue
       
       if ans is None:
         raise Exception('Answer cannot be none')
 
-      if ans == '':
-        self.disp.timeout()
-        self.addScore(-1)
+      if question == ans:
+        self.disp.setCorrect(ans)
+        self.addScore(1)
       else:
-        if question == ans:
-          self.disp.setCorrect(ans)
-          self.addScore(1)
-        else:
-          self.disp.doWrong()
-          self.disp.setSelected(ans)
-          self.subScore(1)
+        self.disp.doWrong()
+        self.disp.setSelected(ans)
+        self.subScore(1)
 
       # Step 4 disinvite player
       self.disp.flush()
