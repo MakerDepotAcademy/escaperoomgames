@@ -63,7 +63,7 @@ class Player():
         
     ret = self._board.awaitChange(b(), timeout, timeout_tick)
 
-    for i in range(3):
+    for i in range(len(CHOICES)):
       if ret == b(i):
         return CHOICES[i]
 
