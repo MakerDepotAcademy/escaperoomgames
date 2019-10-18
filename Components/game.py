@@ -1,4 +1,4 @@
-import toml, os
+import toml, os, json, signal
 
 from flask     import Flask, request
 from abc       import ABC, abstractmethod
@@ -69,8 +69,8 @@ class Game(ABC):
     if default is not None and type(default) != _type:
       raise TypeError('default= must be %s' % type(_type))
     
-    t = self._config[scope]
     try:
+      t = self._config[scope]
       return _type(t[arg])
     except KeyError as e:
       if default is None:
@@ -118,6 +118,7 @@ class Game(ABC):
     """
     The gameloop thread method
     """
+    self.manager.resetall()
     self.gameLogic(form)
     self.kill(True)
 
@@ -167,9 +168,6 @@ class Game(ABC):
     """
     self.serve(port)
 
-
-
-
   def serve(self, port=5000):
     """
     Serves a set of http endpoints 
@@ -181,7 +179,7 @@ class Game(ABC):
       self._playing = True
       self._alive = True
       self.team = Team(request.form['team_name'], request.form['team_id'], request.form['team_playerCount'])
-      self.meta['from'] = request.form.to_dict()
+      self.meta['form'] = request.form.to_dict()
       self._gameloopthread = Thread(target=self._gameLoop, args=[request.form.to_dict()])
       self._gametimerthread = Thread(target=self._gameTimer)
       self._gameloopthread.start()
@@ -199,11 +197,14 @@ class Game(ABC):
 
     @self._api.route('/score')
     def flask_get_score():
-      return str(Scores.score)
+      try:
+        return int(self.team)
+      except AttributeError:
+        return "Team doesn't exist because game hasn't started"
 
     @self._api.route('/dump')
     def flask_dump():
-      return self.meta
+      return json.dumps(self.meta)
 
     @self._api.route('/kill')
     def flask_kill():
@@ -231,7 +232,9 @@ class Team():
 
   def __iadd__(self, o):
     self.score += o
+    return self
 
   def __isub__(self, o):
     self.score -= o
+    return self
 

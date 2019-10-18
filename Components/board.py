@@ -56,11 +56,8 @@ class Board():
     """
     Resets the board to default input pullup state
     """
-
-    def r(c):
-      self.queue = c * 32
-      self.run()
-    r('u')
+    self.queue = 'u' * 32
+    self.run()
 
   def _setpin(self, pin, val):
     """
@@ -250,14 +247,14 @@ class Manager():
     Closes all drivers
     """
     for k in self._boards:
-      self._boards[k].close()
+      k.close()
 
   def resetall(self):
     """
     Resets all drivers
     """
     for k in self._boards:
-      self._boards[k].reset()
+      k.reset()
 
 
 if __name__ == "__main__":

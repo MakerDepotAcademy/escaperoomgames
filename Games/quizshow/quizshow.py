@@ -3,7 +3,7 @@ import sys, os
 sys.path.append('./components')
 from components.game import Game
 
-from player import assignPlayers, cyclePlayers
+from player import assignPlayers, cyclePlayers, NoAnswer
 import questions
 from display import Display, displayQuestion
 
@@ -20,6 +20,10 @@ class QuizShowGame(Game):
   def __init__(self):
     Game.__init__(self, os.getcwd() + '/config.cfg')
     self.disp = Display(self.get_config('LINK','DISP'), correct_music=self.get_config('MUSIC', 'START'), wrong_music=self.get_config('MUSIC', 'WRONG'))
+    self.disp.restart()
+    self.meta['score'] = {}
+    self.meta['score']['correct'] = 0
+    self.meta['score']['wrong'] = 0
 
   def game_tick(self, time):
     self.disp.setGameTimer(time)
@@ -49,6 +53,7 @@ class QuizShowGame(Game):
 
   def gameLogic(self, form):
     # Pregame prep
+    self.disp.restart()
     ROUND_TIME = self.get_config('TIME', 'ROUND_TIME', type=int, default=10)
     self.disp.setRoundTimer(ROUND_TIME)
     self.disp.setGameTimer(self.get_config('TIME', 'GAME_TIME', type=int, default=300))
@@ -60,76 +65,73 @@ class QuizShowGame(Game):
     Q = questions.getQuestions(self.get_config('LINK', 'DB_URL'))
     P = cyclePlayers(plyrs)
 
-    self.meta['score'] = {}
-    self.meta['score']['correct'] = 0
-    self.meta['score']['wrong'] = 0
+    for b in self.manager:
+      for i in range(32):
+        b.turnOff(i)
+      b.run()
 
     while True:
       # Match player to question
       question = next(Q)
-      logger.debug("a")
+      logger.debug("Got question")
       player = next(P)
-      logger.debug("a")
+      logger.debug("Got player")
 
       # Step 1: invite player
       self.block()
-      logger.debug("a")
+      logger.debug("Invite player")
       # player.flash(Times.Invite_Sleep)
       player.lightAll(True)
-      logger.debug("a")
+      logger.debug("Light player podium")
       self.disp.invitePlayer(player._id)
-      logger.debug("a")
+      logger.debug("Invite player flash")
       # self.disp.playAudio(START_MUSIC)
-      logger.debug("a")
       # self.startRound()
-      logger.debug("a")
 
       # Step 2: Display question
       self.block()
-      logger.debug("a")
+      logger.debug("Loading question")
       question.show()
-      logger.debug("a")
       displayQuestion(self.disp, question)
-      logger.debug("a")
+      logger.debug("Posted question to display")
 
       # Step 3: Judge answer
       self.block()
-      logger.debug("a")
+      logger.debug("Judging answer")
       ans = player.catchAnswer(ROUND_TIME, self.round_tick)
-      logger.debug("a")
+      logger.debug("Caught answer %s" % ans)
       
       if ans is None:
-        logger.debug("a")
+        logger.debug("Answer is none")
         raise Exception('Answer cannot be none')
 
       if ans == '':
         self.disp.timeout()
-        logger.debug("a")
+        logger.debug("Display timeout flash")
         self.addScore(-1)
-        logger.debug("a")
+        logger.debug("Sub 1 from score")
       else:
         if question == ans:
-          logger.debug("a")
+          logger.debug("Correct answer")
           self.disp.setCorrect(ans)
-          logger.debug("a")
+          logger.debug("Correct answer flash")
           self.addScore(1)
-          logger.debug("a")
+          logger.debug("Add score")
         else:
           self.disp.doWrong()
-          logger.debug("a")
+          logger.debug("Wrong answer flash")
           self.disp.setSelected(ans)
-          logger.debug("a")
+          logger.debug("Set %a to selected" % ans)
           self.subScore(1)
-          logger.debug("a")
+          logger.debug("Sub one from score")
 
       # Step 4 disinvite player
-      logger.debug("a")
+      logger.debug("Disinvite player")
       self.disp.flush()
-      logger.debug("a")
+      logger.debug("Clear display buffer")
       player.lightAll(False)
-      logger.debug("a")
+      logger.debug("Turn off podium")
       # self.stopRound()
-      logger.debug("a")
       self.sleep(self.get_config('TIME', 'BETWEEN_ROUNDS', type=int, default=1))
 
 QuizShowGame()()
