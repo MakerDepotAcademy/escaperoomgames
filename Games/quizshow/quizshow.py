@@ -89,8 +89,6 @@ class QuizShowGame(Game):
         self.subScore(1)
         self.sleep(1)
         continue
-      except NoAnswer:
-        continue
       
       if ans is None:
         raise Exception('Answer cannot be none')

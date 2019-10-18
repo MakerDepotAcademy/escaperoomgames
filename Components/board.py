@@ -164,7 +164,6 @@ class Board():
       if new != last:
         for p in pins:
           if new[p] != last[p]:
-            del buffer
             return p
     
 
