@@ -1,4 +1,4 @@
-import toml, os, json
+import toml, os, json, signal
 
 from flask     import Flask, request
 from abc       import ABC, abstractmethod
