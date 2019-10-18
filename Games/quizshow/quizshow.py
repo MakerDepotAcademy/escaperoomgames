@@ -7,6 +7,14 @@ from player import assignPlayers, cyclePlayers, NoAnswer
 import questions
 from display import Display, displayQuestion
 
+import logging
+
+FORMAT = '%(asctime)-15s %(name)s : %(message)s'
+logging.basicConfig(filename='qs.log',format=FORMAT,level=logging.NOTSET)
+
+logger = logging.getLogger(__name__)
+
+
 class QuizShowGame(Game):
 
   def __init__(self):
@@ -65,46 +73,69 @@ class QuizShowGame(Game):
     while True:
       # Match player to question
       question = next(Q)
+      logger.debug("a")
       player = next(P)
+      logger.debug("a")
 
       # Step 1: invite player
       self.block()
+      logger.debug("a")
       # player.flash(Times.Invite_Sleep)
       player.lightAll(True)
+      logger.debug("a")
       self.disp.invitePlayer(player._id)
+      logger.debug("a")
       # self.disp.playAudio(START_MUSIC)
+      logger.debug("a")
       # self.startRound()
+      logger.debug("a")
 
       # Step 2: Display question
       self.block()
+      logger.debug("a")
       question.show()
+      logger.debug("a")
       displayQuestion(self.disp, question)
+      logger.debug("a")
 
       # Step 3: Judge answer
       self.block()
-      try:
-        ans = player.catchAnswer(ROUND_TIME, self.round_tick)
-      except TimeoutError:
-        self.disp.timeout()
-        self.subScore(1)
-        self.sleep(1)
-        continue
+      logger.debug("a")
+      ans = player.catchAnswer(ROUND_TIME, self.round_tick)
+      logger.debug("a")
       
       if ans is None:
+        logger.debug("a")
         raise Exception('Answer cannot be none')
 
-      if question == ans:
-        self.disp.setCorrect(ans)
-        self.addScore(1)
+      if ans == '':
+        self.disp.timeout()
+        logger.debug("a")
+        self.addScore(-1)
+        logger.debug("a")
       else:
-        self.disp.doWrong()
-        self.disp.setSelected(ans)
-        self.subScore(1)
+        if question == ans:
+          logger.debug("a")
+          self.disp.setCorrect(ans)
+          logger.debug("a")
+          self.addScore(1)
+          logger.debug("a")
+        else:
+          self.disp.doWrong()
+          logger.debug("a")
+          self.disp.setSelected(ans)
+          logger.debug("a")
+          self.subScore(1)
+          logger.debug("a")
 
       # Step 4 disinvite player
+      logger.debug("a")
       self.disp.flush()
+      logger.debug("a")
       player.lightAll(False)
+      logger.debug("a")
       # self.stopRound()
+      logger.debug("a")
       self.sleep(self.get_config('TIME', 'BETWEEN_ROUNDS', type=int, default=1))
 
 QuizShowGame()()
