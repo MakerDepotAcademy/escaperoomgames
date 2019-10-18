@@ -67,7 +67,7 @@ class Player():
       if ret == b(i):
         return CHOICES[i]
 
-    raise NoAnswer
+    return ''
 
 
 def assignPlayers(player_count, boards):

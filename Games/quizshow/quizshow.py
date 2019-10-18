@@ -108,7 +108,7 @@ class QuizShowGame(Game):
       if ans == '':
         self.disp.timeout()
         logger.debug("Display timeout flash")
-        self.addScore(-1)
+        self.subScore(1)
         logger.debug("Sub 1 from score")
       else:
         if question == ans:
