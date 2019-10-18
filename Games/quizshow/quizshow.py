@@ -73,69 +73,65 @@ class QuizShowGame(Game):
     while True:
       # Match player to question
       question = next(Q)
-      logger.debug("a")
+      logger.debug("Got question")
       player = next(P)
-      logger.debug("a")
+      logger.debug("Got player")
 
       # Step 1: invite player
       self.block()
-      logger.debug("a")
+      logger.debug("Invite player")
       # player.flash(Times.Invite_Sleep)
       player.lightAll(True)
-      logger.debug("a")
+      logger.debug("Light player podium")
       self.disp.invitePlayer(player._id)
-      logger.debug("a")
+      logger.debug("Invite player flash")
       # self.disp.playAudio(START_MUSIC)
-      logger.debug("a")
       # self.startRound()
-      logger.debug("a")
 
       # Step 2: Display question
       self.block()
-      logger.debug("a")
+      logger.debug("Loading question")
       question.show()
-      logger.debug("a")
       displayQuestion(self.disp, question)
-      logger.debug("a")
+      logger.debug("Posted question to display")
 
       # Step 3: Judge answer
       self.block()
-      logger.debug("a")
+      logger.debug("Judging answer")
       ans = player.catchAnswer(ROUND_TIME, self.round_tick)
-      logger.debug("a")
+      logger.debug("Caught answer %s" % ans)
       
       if ans is None:
-        logger.debug("a")
+        logger.debug("Answer is none")
         raise Exception('Answer cannot be none')
 
       if ans == '':
         self.disp.timeout()
-        logger.debug("a")
+        logger.debug("Display timeout flash")
         self.addScore(-1)
-        logger.debug("a")
+        logger.debug("Sub 1 from score")
       else:
         if question == ans:
-          logger.debug("a")
+          logger.debug("Correct answer")
           self.disp.setCorrect(ans)
-          logger.debug("a")
+          logger.debug("Correct answer flash")
           self.addScore(1)
-          logger.debug("a")
+          logger.debug("Add score")
         else:
           self.disp.doWrong()
-          logger.debug("a")
+          logger.debug("Wrong answer flash")
           self.disp.setSelected(ans)
-          logger.debug("a")
+          logger.debug("Set %a to selected" % ans)
           self.subScore(1)
-          logger.debug("a")
+          logger.debug("Sub one from score")
 
       # Step 4 disinvite player
-      logger.debug("a")
+      logger.debug("Disinvite player")
       self.disp.flush()
-      logger.debug("a")
+      logger.debug("Clear display buffer")
       player.lightAll(False)
-      logger.debug("a")
+      logger.debug("Turn off podium")
       # self.stopRound()
-      logger.debug("a")
       self.sleep(self.get_config('TIME', 'BETWEEN_ROUNDS', type=int, default=1))
 
 QuizShowGame()()
