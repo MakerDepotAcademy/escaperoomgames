@@ -1,9 +1,10 @@
 import serial
+from multiprocessing import Process ,Queue
 from pathlib import Path
 from threading import Thread, Lock
 import re
 from random import randint
-from time import sleep
+from time import sleep , time
 
 import logging
 
@@ -157,29 +158,44 @@ class Board():
 
     :pins <list(int)> the pins to detect
     :timeout <int> how long to wait
-    :timeout_tick <callable> runs every second these pins aren't interrupted
     """
-    def read(timeout=timeout):
-      while timeout > 0:
-        l = self._ser.readline()
-        timeout -= 1
-        timeout_tick(timeout)
-        if re.match(r'[01]+', l.decode()):
-          return l
-      raise TimeoutError()
-        
-    buffer = read()
+    """self._ser.flush()
+    self._ser.flushInput()
+    self._ser.flushOutput()"""
+    state=''
+    self._ser.read_all()# _ method to purge the queue immediately
+    for pin in pins :
+      self.setInput(pin).run()
 
-    while True:
-      buffer += read()
-      s = buffer.splitlines()
-      new = s[-1]
-      last = s[-2]
-      if new != last:
-        for p in pins:
-          if new[p] != last[p]:
-            del buffer
-            return p
+    while len(state) !=32:
+      state=self.getPorts()
+    
+    result = Queue()
+    def checkstate(q):
+      while True:
+        sleep(.1)
+        newstate=self._ser.readline().strip().decode()
+        if len(newstate)==32:
+          for pin in pins :
+            if newstate[pin-1] != state[pin-1]:
+              q.put(pin)
+              return
+    
+    cs_process = Process(target=checkstate,args=(result,))
+    cs_process.start()
+    for x in range(timeout):
+      cs_process.join(timeout=1)
+      if(cs_process.is_alive()):
+        timeout_tick(timeout-x)
+      else:
+        break
+    cs_process.terminate()
+    try:
+      return result.get_nowait()
+    except:
+      return False
+
+    
     
 
 class Manager():
