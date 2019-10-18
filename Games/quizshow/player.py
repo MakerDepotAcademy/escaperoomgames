@@ -63,7 +63,7 @@ class Player():
     except TimeoutError as e:
       return ''
 
-    for i in range(3):
+    for i in range(4):
       if ret == b(i):
         return CHOICES[i]
 

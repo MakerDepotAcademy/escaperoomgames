@@ -159,9 +159,7 @@ class Board():
     :pins <list(int)> the pins to detect
     :timeout <int> how long to wait
     """
-    """self._ser.flush()
-    self._ser.flushInput()
-    self._ser.flushOutput()"""
+
     state=''
     self._ser.read_all()# _ method to purge the queue immediately
     for pin in pins :
