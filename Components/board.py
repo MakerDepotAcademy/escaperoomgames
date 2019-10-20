@@ -48,7 +48,8 @@ class Board():
     Runs the buffered commands
     """
 
-    t = ''.join(self.queue) + '\n'
+    t = ''.join(self.queue) + '\r\n'
+    print("board running: "+t)
     self._ser.write(t.encode())
     self.queue = ['x'] * self._queuelen
 
@@ -67,6 +68,7 @@ class Board():
       self.queue[pin-1] = val
       return self
     else:
+      print("PIN OUT OF RANGE")
       return False
 
   def _prompt(self, p):
@@ -156,11 +158,12 @@ class Board():
     :pins <list(int)> the pins to detect
     :timeout <int> how long to wait
     """
-
+    print("await Change")
     state=''
     self._ser.read_all()# _ method to purge the queue immediately
     for pin in pins :
-      self.setInput(pin).run()
+      self.setInput(pin)
+    self.run()
 
     while len(state) !=32:
       state=self.getPorts()

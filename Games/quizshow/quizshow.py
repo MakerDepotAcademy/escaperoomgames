@@ -67,7 +67,11 @@ class QuizShowGame(Game):
 
     for b in self.manager:
       for i in range(32):
-        b.turnOff(i)
+        b.turnOff(i+1)
+      b.run()
+    for b in self.manager:
+      for i in range(32):
+        b.turnOn(i+1)
       b.run()
 
     while True:
@@ -80,6 +84,10 @@ class QuizShowGame(Game):
       # Step 1: invite player
       self.block()
       logger.debug("Invite player")
+      for b in self.manager:
+        for i in range(32):
+          b.turnOff(i+1)
+        b.run()
       # player.flash(Times.Invite_Sleep)
       player.lightAll(True)
       logger.debug("Light player podium")

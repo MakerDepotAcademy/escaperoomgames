@@ -76,6 +76,7 @@ app.on('ready', () => {
     },
     webSecurity: false
   })
+  win.webContents.openDevTools()
   win.maximize()
   win.setFullScreen(true)
   win.loadFile('app/index.html')

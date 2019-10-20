@@ -42,6 +42,7 @@ class Player():
     self._id = id
 
   def lightAll(self, on=True):
+    print("lightall(%r)"%on)
     for b in self.buttons:
       self.buttons[b].light(on)
     self._board.run()
@@ -81,7 +82,7 @@ def assignPlayers(player_count, boards):
   ]
 
   for i, pod in enumerate(iter(pod_lut[player_count - 2])):
-    offset = 8 * (pod if pod < 4 else 0)
+    offset = (8 * (pod if pod < 4 else 0))+1
     board = boards[0 if pod < 4 else 1]
     Players.append(Player(board, offset, i + 1))
 
