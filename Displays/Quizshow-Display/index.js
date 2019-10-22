@@ -54,8 +54,7 @@ wss.on('connection', ws => {
         updateUI('yellow', '', ws)
         updateUI('gametick', '', ws)
         updateUI('roundtick', '', ws)
-        updateUI('score.correct', '0', ws)
-        updateUI('score.wrong', '0', ws)
+        updateUI('score', '0', ws)
         updateUI('gametick', '0', ws)
         updateUI('roundtick', '0', ws)
         continue
@@ -76,7 +75,6 @@ app.on('ready', () => {
     },
     webSecurity: false
   })
-  win.webContents.openDevTools()
   win.maximize()
   win.setFullScreen(true)
   win.loadFile('app/index.html')

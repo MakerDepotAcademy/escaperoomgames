@@ -7,19 +7,20 @@ h2 {
   margin: 10px auto;
 }
 .container {
-  font-size: 2em;
-  bottom: 0px;
+  font-weight: bolder;
+  bottom: 1vh;
+  left: 1vh;
+  right: 1vh;
   position: fixed;
-  margin: 20px auto;
-  width: calc(100vw - 15px);
-  height: 50%;
+  margin: 0px auto;
+  height: 50vh;
   background-color: rgba(255, 255, 255, 0) !important;
   display: grid;
   grid-template-columns: auto auto;
   grid-row: auto auto;
   grid-column: auto;
   grid-gap: 10px;
-  --opacity: 0.8;
+  --opacity: .8;
 }
 
 .container .box {
@@ -53,14 +54,17 @@ h1 {
 }
 
 h1#question {
-color: white;
-text-shadow: 8px 8px 8px #000000;
-position: fixed;
-top: 25%;
-margin: 0 auto;
-width: 100%;
-text-align: center;
-font-size: 4em;
+  color: white;
+  left: 0;
+  text-shadow: 8px 8px 8px #000000;
+  position: fixed;
+  top: 34vh;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  font-size: 8vh;
+  max-height: 26vh;
+  transform: translate(0, -50%);
 }
 
 .hidden {
@@ -70,18 +74,31 @@ font-size: 4em;
 .alert {
   color: white;
   position: fixed;
-  top: 50%;
+  top: 12vh;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
+#player {
+  color: #ffffff;
+  top: 5px;
+  left:50%;
+  margin: 0px auto;
+  width:100%;
+  padding: 0;
+  position: fixed;
+  transform: translate(-50%, 0%);
+
+}
+
+
 .alert.bad {
-  background-color: red;
+  color: red;
 }
 
 .alert.good {
-  background-color: greenyellow;
+  color: limegreen ;
 }
 
 video {
@@ -121,6 +138,6 @@ body{
 
 #stats {
   text-align: left !important;
-  font-size: larger;
+  font-size: 2.8vh;
   position: absolute;
 }
