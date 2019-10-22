@@ -55,20 +55,23 @@ listener('gametick', '#game_time');
 listenflash('roundsup')
 listenflash('gameover', 10000)
 listenflash('wrong')
-listenflash('player', 3000)
+listenflash('correct')
 listenflash('timeout', 1000)
 
-listener('score.correct', '#scorecorrect', (opts) => {
+listener('score', '#score', (opts) => {
   let e = document.querySelector(opts.query)
   e.textContent = opts.arg
 });
-listener('score.wrong', '#scorewrong', (opts) => {
-  let e = document.querySelector(opts.query)
-  e.textContent = opts.arg
-})
+
 
 listener('player', '#player', opts => {
   var e = document.querySelector('#playername')
+  var p = document.querySelector('#player')
+  if (opts.arg == 0){
+    p.classList.add('hidden')
+  }else{
+    p.classList.remove('hidden')
+  }
   e.innerText = opts.arg
 })
 

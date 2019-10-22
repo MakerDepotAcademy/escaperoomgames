@@ -121,7 +121,8 @@ class QuizShowGame(Game):
       else:
         if question == ans:
           logger.debug("Correct answer")
-          self.disp.setCorrect(ans)
+          self.disp.doCorrect()
+          self.disp.setSelected(ans)
           logger.debug("Correct answer flash")
           self.addScore(1)
           logger.debug("Add score")

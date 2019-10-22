@@ -39,16 +39,15 @@ class Display():
     def setAnswer(self, label, answer):
         self._queue(self._getLabel(label), answer)
 
-    def setCorrect(self, label):
-        self._queue(self._getLabel('score', 'correct'))
-        self._queue(self._getLabel(label, 'correct'))
+    def doCorrect(self):
+        self._queue('correct')
         self.playAudio(self._music_correct)
 
     def setSelected(self, label):
         self._queue(self._getLabel(label, 'selected'))
 
     def setScore(self, score):
-        self._queue('score.correct' if score > 0 else 'score.wrong', score)
+        self._queue('score', score)
 
     def setRoundTimer(self, secs):
         self._queue('roundtick', secs)
@@ -59,7 +58,6 @@ class Display():
         self.flush()
 
     def doWrong(self):
-        self._queue(self._getLabel('score', 'wrong'))
         self._queue('wrong')
         self.playAudio(self._music_wrong)
 
@@ -69,7 +67,7 @@ class Display():
 
     def playAudio(self, audpath):
         print('Pass playing audio')
-        # self._queue('audioplay', audpath)
+        self._queue('audioplay', audpath)
         self.flush()
 
     def restart(self):
