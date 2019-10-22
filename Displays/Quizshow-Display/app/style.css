@@ -74,7 +74,7 @@ h1#question {
 .alert {
   color: white;
   position: fixed;
-  top: 11vh;
+  top: 10.2vh;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
