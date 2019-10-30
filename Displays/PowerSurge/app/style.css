@@ -1,0 +1,144 @@
+html {
+  cursor: none;
+}
+
+h2 {
+  font-size: 1.8em;
+  margin: 10px auto;
+}
+.container {
+  font-weight: bolder;
+  bottom: 1vh;
+  left: 1vh;
+  right: 1vh;
+  position: fixed;
+  margin: 0px auto;
+  height: 50vh;
+  background-color: rgba(255, 255, 255, 0) !important;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-row: auto auto;
+  grid-column: auto;
+  grid-gap: 10px;
+  --opacity: .8;
+}
+
+.container .box {
+  border-radius: 40px;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6vh;
+}
+
+#answer{
+  font-size: 1.8em;
+}
+
+.container .box#red {
+  background-color: rgba(255, 0, 0, var(--opacity));
+}
+.container .box#green {
+  background-color: rgba(0, 128, 0, var(--opacity));
+}
+.container .box#blue {
+  background-color: rgba(0, 0, 255, var(--opacity));
+}
+.container .box#yellow {
+  background-color: rgba(255, 255, 0, var(--opacity));
+}
+
+h1 {
+  font-size: 10vh;
+}
+
+h1#question {
+  color: white;
+  left: 0;
+  text-shadow: 8px 8px 8px #000000;
+  position: fixed;
+  top: 34vh;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  font-size: 8vh;
+  max-height: 26vh;
+  transform: translate(0, -50%);
+}
+
+.hidden {
+  display: none;
+}
+
+.alert {
+  color: white;
+  position: fixed;
+  font-size: 30vh;
+  top: 25%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#player {
+  color: #ffffff;
+  top: 5px;
+  left:50%;
+  margin: 0px auto;
+  width:100%;
+  padding: 0;
+  position: fixed;
+  transform: translate(-50%, 0%);
+
+}
+
+
+.alert.bad {
+  color: red;
+}
+
+.alert.good {
+  color: limegreen ;
+}
+
+video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 100;
+  background-size: cover;
+}
+
+header { 
+  display: inline-block;
+}
+
+header h1 {
+  background: -webkit-linear-gradient(45deg, rgb(9, 0, 159), rgb(0, 255, 149) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+* {
+  font-family: sans-serif;
+  text-align: center;
+  color: white;
+}
+
+body{
+  /* background-image: url('background.png'); */
+  background-color: #000000;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#stats {
+  text-align: left !important;
+  font-size: 2.8vh;
+  position: absolute;
+}
