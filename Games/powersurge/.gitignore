@@ -1,13 +1,13 @@
+build-*
+.vscode/c_cpp_properties.json
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-doxygen/*
-*.log
+
 # C extensions
 *.so
-node_modules/
-.vscode/
+
 # Distribution / packaging
 .Python
 build/
@@ -124,6 +124,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-pnpm-lock.yaml
-Targets/assets/selfupdater/.last
-**/videos/*
+.vscode/tags
