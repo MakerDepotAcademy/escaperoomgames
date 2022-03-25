@@ -10,7 +10,7 @@
   "author": "danhab99",
   "license": "UNLICENSED",
   "devDependencies": {
-    "electron": "^6.0.0"
+    "electron": "^13.6.6"
   },
   "dependencies": {
     "dotenv": "^8.0.0",
